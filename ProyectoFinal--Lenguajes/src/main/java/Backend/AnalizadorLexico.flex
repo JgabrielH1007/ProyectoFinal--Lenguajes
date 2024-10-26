@@ -20,65 +20,73 @@ private List<Token> listaRacionales = new ArrayList<>();
 private List<Token> listaLogicos = new ArrayList<>();
 private List<Token> listaComentarios = new ArrayList<>();
 private List<Token> listaErrores = new ArrayList<>();
-
+private List<List<Token>> listaTokens = new ArrayList();
 
 public void addListCreate(String token) {
-        listaCreate.add(new Token(token, yyline, yycolumn,"create"));
+        listaCreate.add(new Token(token, yyline, yycolumn,"create",yychar));
 }
 public void addListTipoDato(String token) {
-        listaTipoDato.add(new Token(token, yyline, yycolumn,"TipoDato"));
+        listaTipoDato.add(new Token(token, yyline, yycolumn,"TipoDato",yychar));
 }
 
 public void addListEntero(String token) {
-        listaEntero.add(new Token(token, yyline, yycolumn,"Entero"));
+        listaEntero.add(new Token(token, yyline, yycolumn,"Entero",yychar));
 }
 
 public void addListDecimal(String token){
-        listaDecimal.add(new Token(token, yyline, yycolumn,"Decimal"));
+        listaDecimal.add(new Token(token, yyline, yycolumn,"Decimal",yychar));
 }
 
 public void addListFecha(String token){
-        listaFecha.add(new Token(token, yyline, yycolumn,"Fecha"));
+        listaFecha.add(new Token(token, yyline, yycolumn,"Fecha",yychar));
 }
 
 public void addListCadena(String token){
-        listaCadena.add(new Token(token, yyline, yycolumn,"Cadena"));
+        listaCadena.add(new Token(token, yyline, yycolumn,"Cadena",yychar));
 }
 
 public void addListIdentificador(String token){
-        listaIdentificador.add(new Token(token, yyline, yycolumn,"Identificador"));
+        listaIdentificador.add(new Token(token, yyline, yycolumn,"Identificador",yychar));
 }
 
 public void addListBooleano(String token){
-        listaBooleano.add(new Token(token, yyline, yycolumn,"Booleano"));
+        listaBooleano.add(new Token(token, yyline, yycolumn,"Booleano",yychar));
 }
 
 public void addListAgregacion(String token){
-        listaAgregacion.add(new Token(token, yyline, yycolumn,"Agregacion"));
+        listaAgregacion.add(new Token(token, yyline, yycolumn,"Agregacion",yychar));
 }
 
 public void addListSignos(String token){
-        listaSignos.add(new Token(token, yyline, yycolumn,"Signos"));
+        listaSignos.add(new Token(token, yyline, yycolumn,"Signos",yychar));
 }
 
 public void addListAritmeticos(String token){
-        listaAritmeticos.add(new Token(token, yyline, yycolumn,"Aritmeticos"));
+        listaAritmeticos.add(new Token(token, yyline, yycolumn,"Aritmeticos",yychar));
 }
 
 public void addListRacionales(String token){
-        listaRacionales.add(new Token(token, yyline, yycolumn,"Racionales"));
+        listaRacionales.add(new Token(token, yyline, yycolumn,"Racionales",yychar));
 }
 
 public void addListLogicos(String token){
-        listaLogicos.add(new Token(token, yyline, yycolumn,"Logicos"));
+        listaLogicos.add(new Token(token, yyline, yycolumn,"Logicos",yychar));
 }
 
 public void addListComentario(String token){
-        listaComentarios.add(new Token(token, yyline, yycolumn,"Comentario"));
+        listaComentarios.add(new Token(token, yyline, yycolumn,"Comentario",yychar));
 }
 
 public void addListaErrores(String token){
-        listaErrores.add(new Token(token, yyline, yycolumn,"Error"));
+        listaErrores.add(new Token(token, yyline, yycolumn,"Error",yychar));
+}
+
+public void addListaTokens(List<Token> lista){
+        listaTokens.add(lista);
+}
+
+public List<List<Token>> getListaTokens() {
+        return listaTokens;
 }
 
 public List<Token> getListaCreate() {

@@ -9,20 +9,22 @@ package Backend;
  * @author gabrielh
  */
 public class Token {
-    private String token;
+    private String texto;
     private int line;
     private int column;
     private String tipo;
-
-    public Token(String token, int line, int column, String tipo) {
-        this.token = token;
+    private int inicio;
+    
+    public Token(String texto, int line, int column, String tipo, int inicio) {
+        this.texto = texto;
         this.line = line;
         this.column = column;
         this.tipo = tipo;
+        this.inicio = inicio;
     }
 
-    public String getToken() {
-        return token;
+    public String getTexto() {
+        return texto;
     }
 
     public int getLine() {
@@ -36,11 +38,14 @@ public class Token {
     public String getTipo() {
         return tipo;
     }
-    
-    
 
+    public int getInicio() {
+        return inicio;
+    }
+    
     @Override
     public String toString() {
-        return "Token: " + token + ", Linea: " + line + ", Columna: " + column;
+        return "Token: " + texto + ", Linea: " + line + ", Columna: " + column;
     }
+
 }

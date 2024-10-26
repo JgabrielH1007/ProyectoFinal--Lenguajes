@@ -5,6 +5,7 @@
 package Fronted;
 
 import Backend.AnalizadorLexico;
+import Backend.AnalizadorSintactico;
 import Backend.Token;
 import java.awt.Color;
 import java.awt.event.MouseEvent;
@@ -15,6 +16,7 @@ import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
+import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
@@ -24,6 +26,22 @@ import javax.swing.text.StyledDocument;
  * @author gabrielh
  */
 public class FramePrincipal extends javax.swing.JFrame {
+
+    private List<Token> listaCreate;
+    private List<Token> listaTipoDato;
+    private List<Token> listaEntero;
+    private List<Token> listaDecimal;
+    private List<Token> listaFecha;
+    private List<Token> listaCadena;
+    private List<Token> listaIdentificador;
+    private List<Token> listaBooleano;
+    private List<Token> listaAgregacion;
+    private List<Token> listaSignos;
+    private List<Token> listaAritmeticos;
+    private List<Token> listaRacionales;
+    private List<Token> listaLogicos;
+    private List<Token> listaComentarios;
+    private boolean lexicoCorrecto;
 
     /**
      * Creates new form FramePrincipal
@@ -211,62 +229,139 @@ public class FramePrincipal extends javax.swing.JFrame {
         analizar();
     }//GEN-LAST:event_jbtAnalizarActionPerformed
 
-    public void analizar() throws BadLocationException {
+    public void analizar() {
         String entrada = jtpEditor.getText();
         AnalizadorLexico analizadorLexico = new AnalizadorLexico(new StringReader(entrada));
-        StyledDocument doc = jtpEditor.getStyledDocument();
-
-        // Eliminar el contenido anterior
-        doc.remove(0, doc.getLength());
 
         try {
-            while (analizadorLexico.yylex() != AnalizadorLexico.YYEOF) {
-                // Aquí deberías implementar la lógica para obtener el token y su tipo
-                // por ejemplo:
-                Token token = ... // Obtener el token desde el analizador
-                String tokenText = token.getText(); // Asumiendo que hay un método para obtener el texto del token
+            StyledDocument doc = jtpEditor.getStyledDocument();
 
-                // Aplicar estilo basado en el tipo de token
-                aplicarEstilo(doc, tokenText, token.getTipo()); // Método que aplicarás a continuación
+            // Definición de los colores
+            SimpleAttributeSet azul = new SimpleAttributeSet();
+            StyleConstants.setForeground(azul, Color.BLUE);
+
+            SimpleAttributeSet verde = new SimpleAttributeSet();
+            StyleConstants.setForeground(verde, Color.GREEN);
+
+            SimpleAttributeSet morado = new SimpleAttributeSet();
+            StyleConstants.setForeground(morado, new Color(75, 0, 130));
+
+            SimpleAttributeSet naranja = new SimpleAttributeSet();
+            StyleConstants.setForeground(naranja, Color.ORANGE);
+
+            SimpleAttributeSet amarillo = new SimpleAttributeSet();
+            StyleConstants.setForeground(amarillo, Color.YELLOW);
+
+            // Nuevo color fucsia
+            SimpleAttributeSet fucsia = new SimpleAttributeSet();
+            StyleConstants.setForeground(fucsia, new Color(255, 0, 255)); // Fucsia (RGB: 255, 0, 255)
+
+            SimpleAttributeSet negro = new SimpleAttributeSet();
+            StyleConstants.setForeground(negro, Color.BLACK);
+
+            SimpleAttributeSet gris = new SimpleAttributeSet();
+            StyleConstants.setForeground(gris, Color.GRAY);
+
+            // Limpiar estilos previos
+            doc.setCharacterAttributes(0, entrada.length(), new SimpleAttributeSet(), true);
+
+            // Analiza el texto y llena las listas de tokens
+            while (analizadorLexico.yylex() != AnalizadorLexico.YYEOF) {
+            }
+
+            // Obtener listas de tokens
+            listaCreate = analizadorLexico.getListaCreate();
+            listaTipoDato = analizadorLexico.getListaTipoDato();
+            listaEntero = analizadorLexico.getListaEntero();
+            listaDecimal = analizadorLexico.getListaDecimal();
+            listaFecha = analizadorLexico.getListaFecha();
+            listaCadena = analizadorLexico.getListaCadena();
+            listaIdentificador = analizadorLexico.getListaIdentificador();
+            listaBooleano = analizadorLexico.getListaBooleano();
+            listaAgregacion = analizadorLexico.getListaAgregacion();
+            listaSignos = analizadorLexico.getListaSignos();
+            listaAritmeticos = analizadorLexico.getListaAritmeticos();
+            listaRacionales = analizadorLexico.getListaRacionales();
+            listaLogicos = analizadorLexico.getListaLogicos();
+            listaComentarios = analizadorLexico.getListaComentarios();
+
+            // Aplicar los colores correspondientes
+            pintarTokens(listaCreate, naranja, doc);
+            pintarTokens(listaTipoDato, morado, doc);
+            pintarTokens(listaEntero, azul, doc);
+            pintarTokens(listaDecimal, azul, doc);
+            pintarTokens(listaFecha, amarillo, doc);
+            pintarTokens(listaCadena, verde, doc);
+            pintarTokens(listaIdentificador, fucsia, doc);
+            pintarTokens(listaBooleano, azul, doc);
+            pintarTokens(listaAgregacion, azul, doc);
+            pintarTokens(listaSignos, negro, doc);
+            pintarTokens(listaAritmeticos, negro, doc);
+            pintarTokens(listaRacionales, negro, doc);
+            pintarTokens(listaLogicos, naranja, doc);
+            pintarTokens(listaComentarios, gris, doc);
+
+            // Manejo de errores
+            List<Token> listaErrores = analizadorLexico.getListaErrores();
+            if (!listaErrores.isEmpty()) {
+                lexicoCorrecto = false;
+                for (Token error : listaErrores) {
+                    System.out.println(error);
+                }
+            } else {
+                lexicoCorrecto = true;
+                AnalizadorSintactico anal = new AnalizadorSintactico();
+                anal.estructuraDataBase(entrada, listaCreate, listaIdentificador, listaSignos);
+                anal.estructuraTablaDesdeTexto(entrada, listaCreate, listaIdentificador, listaTipoDato, listaSignos, listaEntero);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void aplicarEstilo(StyledDocument doc, String tokenText, String tipo) {
-        // Definir estilos
-        Style style = jtpEditor.addStyle("TokenStyle", null);
-
-        switch (tipo) {
-            case "ENTERO":
-                StyleConstants.setForeground(style, Color.BLUE);
-                break;
-            case "DECIMAL":
-                StyleConstants.setForeground(style, Color.GREEN);
-                break;
-            case "CADENA":
-                StyleConstants.setForeground(style, Color.RED);
-                break;
-            case "COMENTARIO":
-                StyleConstants.setForeground(style, Color.GRAY);
-                break;
-            case "IDENTIFICADOR":
-                StyleConstants.setForeground(style, Color.MAGENTA);
-                break;
-            // Agrega más casos según tus tipos de tokens
-            default:
-                StyleConstants.setForeground(style, Color.BLACK); // Color por defecto
-                break;
-        }
-
-        // Insertar el token en el documento con el estilo correspondiente
+    private void pintarTokens(List<Token> tokens, SimpleAttributeSet estilo, StyledDocument doc) {
         try {
-            int offset = doc.getLength();
-            doc.insertString(offset, tokenText + " ", style); // Insertar el token con un espacio
-        } catch (BadLocationException e) {
+            String text = doc.getText(0, doc.getLength());  // Obtener todo el texto del documento
+
+            for (Token token : tokens) {
+                int start = calcularPosicionInicial(token, text);  // Calcular la posición inicial basándose en line y column
+                int length = token.getTexto().length();  // Longitud del token
+
+                // Asegurarse de que la longitud no sea 0 y la posición es válida
+                if (start >= 0 && length > 0) {
+                    doc.setCharacterAttributes(start, length, estilo, true);  // Aplica el estilo al token completo
+                }
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Método para calcular la posición inicial en el documento a partir de las
+     * líneas y columnas del token.
+     */
+    private int calcularPosicionInicial(Token token, String texto) {
+        int line = token.getLine();   // Obtener la línea del token
+        int column = token.getColumn();  // Obtener la columna del token
+        int pos = 0;  // Posición inicial en el texto (que empezará en 0)
+
+        // Recorremos el texto línea por línea hasta alcanzar la línea deseada
+        int currentLine = 0;
+        for (int i = 0; i < texto.length(); i++) {
+            if (currentLine == line) {
+                // Si estamos en la línea correcta, la posición es la columna en esa línea
+                pos = i + column;
+                break;
+            }
+
+            // Si encontramos un salto de línea, incrementamos el contador de líneas
+            if (texto.charAt(i) == '\n') {
+                currentLine++;
+            }
+        }
+
+        return pos;
     }
 
     /**
