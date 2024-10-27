@@ -311,8 +311,7 @@ public class FramePrincipal extends javax.swing.JFrame {
             } else {
                 lexicoCorrecto = true;
                 AnalizadorSintactico anal = new AnalizadorSintactico();
-                anal.estructuraDataBase(entrada, listaCreate, listaIdentificador, listaSignos);
-                anal.estructuraTablaDesdeTexto(entrada, listaCreate, listaIdentificador, listaTipoDato, listaSignos, listaEntero);
+                anal.procesarEstructuras(entrada, listaCreate, listaIdentificador, listaTipoDato, listaSignos, listaEntero, listaAritmeticos, listaLogicos, listaCadena, listaFecha, listaDecimal, listaRacionales);
             }
         } catch (Exception e) {
             e.printStackTrace();
