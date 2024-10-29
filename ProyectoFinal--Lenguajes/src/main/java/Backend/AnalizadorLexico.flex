@@ -171,7 +171,7 @@ ESPACIO = [ \r\t\n]+
 FECHA = \'(\d{4})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])\'
 IDENTIFICADOR = [a-z0-9]+(_[a-z0-9]+)*
 CADENA = \'[^\']*\' 
-COMENTARIO = "--" [\t\n\r\f ]+ [^\n\r]*
+COMENTARIO = "--" [^\n\r]*
 ESPACIOS = [" "\r\t\b\n]
 
 %%
@@ -238,7 +238,7 @@ ESPACIOS = [" "\r\t\b\n]
 ","                 { addListSignos(yytext()); System.out.println("SIGNO: " + yytext()); }
 ";"                 { addListSignos(yytext()); System.out.println("SIGNO: " + yytext()); }
 "."                 { addListSignos(yytext()); System.out.println("SIGNO: " + yytext()); }
-"="                 { addListSignos(yytext()); System.out.println("SIGNO: " + yytext()); }
+"="                 { addListRacionales(yytext()); System.out.println("SIGNO: " + yytext()); }
 "+"                 { addListAritmeticos(yytext()); System.out.println("ARITMETICO: " + yytext()); }
 "-"                 { addListAritmeticos(yytext()); System.out.println("ARITMETICO: " + yytext()); }
 "*"                 { addListAritmeticos(yytext()); System.out.println("ARITMETICO: " + yytext()); }

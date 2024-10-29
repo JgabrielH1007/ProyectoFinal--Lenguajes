@@ -310,8 +310,8 @@ public class FramePrincipal extends javax.swing.JFrame {
                 }
             } else {
                 lexicoCorrecto = true;
-                AnalizadorSintactico anal = new AnalizadorSintactico();
-                anal.procesarEstructuras(entrada, listaCreate, listaIdentificador, listaTipoDato, listaSignos, listaEntero, listaAritmeticos, listaLogicos, listaCadena, listaFecha, listaDecimal, listaRacionales);
+                AnalizadorSintactico analizador = new AnalizadorSintactico();
+                analizador.procesarEstructuras(entrada, listaCreate, listaIdentificador, listaTipoDato, listaSignos, listaEntero, listaAritmeticos, listaLogicos, listaCadena, listaFecha, listaDecimal, listaRacionales, listaAgregacion);
             }
         } catch (Exception e) {
             e.printStackTrace();

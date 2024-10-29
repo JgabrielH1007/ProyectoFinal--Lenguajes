@@ -16,10 +16,13 @@ import java.util.regex.Pattern;
  */
 public class AnalizadorSintactico {
 
-    public void estructuraDataBase(String texto, List<Token> create, List<Token> identificador, List<Token> signos) {
-        String cleanedTexto = texto.replaceAll("\\s*;\\s*", " ; ");
+    private List<Errores> erroresSintacticos = new ArrayList<>();
 
+    private void estructuraDataBase(String texto, List<Token> create, List<Token> identificador, List<Token> signos) {
+        String cleanedTexto = texto.replaceAll("\\s*;\\s*", " ; ");
         String[] tokens = cleanedTexto.split("\\s+");
+
+        boolean validStructureFound = false; // Bandera para detectar estructuras válidas
 
         for (int i = 0; i < tokens.length - 3; i++) {
             // Verificar que los tokens actuales formen la estructura deseada
@@ -27,15 +30,36 @@ public class AnalizadorSintactico {
                     && tokens[i + 1].equals("DATABASE") && containsToken(create, "DATABASE")
                     && containsToken(identificador, tokens[i + 2])) {
 
-                // Verificar si el token siguiente es el punto y coma, que ahora siempre será un token separado
+                // Verificar si el token siguiente es el punto y coma
                 if (tokens[i + 3].equals(";") && containsToken(signos, ";")) {
                     System.out.println("Estructura válida encontrada: CREATE DATABASE " + tokens[i + 2] + " ;");
+                    validStructureFound = true; // Estructura válida encontrada
                     return;
                 }
             }
         }
 
-        System.out.println("Error: No se encontró una estructura válida de 'CREATE DATABASE <identificador> ;'");
+        // Si no se encontró una estructura válida, añadir errores a la lista
+        if (!validStructureFound) {
+            // Validar qué parte de la estructura está faltando
+            if (!tokens[0].equals("CREATE")) {
+                erroresSintacticos.add(new Errores("Falta 'CREATE'", "La instrucción debe comenzar con 'CREATE'."));
+            } else if (!tokens[1].equals("DATABASE")) {
+                erroresSintacticos.add(new Errores("Falta 'DATABASE'", "Se esperaba 'DATABASE' después de 'CREATE'."));
+            } else if (!containsToken(identificador, tokens[2])) {
+                erroresSintacticos.add(new Errores("Identificador no válido", "El identificador debe ser un nombre válido."));
+            } else if (!tokens[3].equals(";")) {
+                erroresSintacticos.add(new Errores("Falta ';'", "La instrucción debe terminar con un punto y coma."));
+            } else {
+                // Caso general si ninguna validación anterior se cumplió
+                erroresSintacticos.add(new Errores("Error de sintaxis", "La instrucción no sigue la sintaxis esperada."));
+            }
+
+            // Mostrar todos los errores registrados
+            for (Errores error : erroresSintacticos) {
+                System.out.println("Error: " + error.getError() + " - " + error.getDefinicion());
+            }
+        }
     }
 
 // Método auxiliar para verificar si un token está en una lista de Tokens
@@ -45,8 +69,8 @@ public class AnalizadorSintactico {
 
                 return true;
             }
-
         }
+
         return false;
     }
 
@@ -186,35 +210,43 @@ public class AnalizadorSintactico {
         }
     }
 
-    public void estructuraTablaDesdeTexto(String texto, List<Token> create, List<Token> identificador, List<Token> tipoDato, List<Token> signos, List<Token> enteros) {
+    private void estructuraTablaDesdeTexto(String texto, List<Token> create, List<Token> identificador, List<Token> tipoDato, List<Token> signos, List<Token> enteros) {
+        // Eliminar comentarios de una sola línea
+        texto = eliminarComentarios(texto);
+
         String[] lineas = texto.split("\n");
         StringBuilder consultaCompleta = new StringBuilder();
-        boolean comenzandoEstructura = false; // Variable para indicar si comenzamos a acumular
+        boolean comenzandoEstructura = false;
 
         for (String linea : lineas) {
-            String lineaLimpiada = linea.trim(); // Limpiar espacios
+            String lineaLimpiada = linea.trim();
 
             if (lineaLimpiada.startsWith("CREATE TABLE")) {
-                comenzandoEstructura = true; // Comenzar a acumular
+                comenzandoEstructura = true;
             }
 
             if (comenzandoEstructura) {
-                consultaCompleta.append(lineaLimpiada).append(" "); // Acumular línea
-
-                // Detener la acumulación si la línea acumulada termina en ");"
+                consultaCompleta.append(lineaLimpiada).append(" ");
                 if (consultaCompleta.toString().trim().endsWith(");")) {
-                    break; // Salir del bucle si termina con ");"
+                    break;
                 }
             }
         }
 
-        // Llamar al método existente con la consulta completa
         estructuraTabla(consultaCompleta.toString(), create, identificador, tipoDato, signos, enteros);
+    }
+
+    public String eliminarComentarios(String texto) {
+        return texto.replaceAll("--[^\n\r]*", "").trim();
     }
 
     public void procesarEstructuras(String consulta, List<Token> create, List<Token> identificador, List<Token> tipoDato, List<Token> signos, List<Token> enteros,
             List<Token> aritmeticos, List<Token> logicos,
-            List<Token> cadena, List<Token> fecha, List<Token> Decimal, List<Token> racional) {
+            List<Token> cadena, List<Token> fecha, List<Token> Decimal, List<Token> racional, List<Token> agregacion) {
+
+        // Eliminar comentarios de una sola línea
+        consulta = eliminarComentarios(consulta);
+
         String[] lineas = consulta.split("\n");
         StringBuilder estructuraActual = new StringBuilder();
         boolean enEstructura = false;
@@ -222,41 +254,38 @@ public class AnalizadorSintactico {
         for (String linea : lineas) {
             String lineaLimpiada = linea.trim();
 
-            // Detecta el inicio de una nueva estructura
             if (lineaLimpiada.startsWith("CREATE DATABASE") || lineaLimpiada.startsWith("CREATE TABLE")
                     || lineaLimpiada.startsWith("ALTER TABLE") || lineaLimpiada.startsWith("DROP TABLE")
-                    || lineaLimpiada.startsWith("INSERT INTO")) { // Añadir INSERT INTO
+                    || lineaLimpiada.startsWith("INSERT INTO") || lineaLimpiada.startsWith("DELETE FROM") || lineaLimpiada.startsWith("SELECT")
+                    || lineaLimpiada.startsWith("UPDATE")) {
 
                 if (enEstructura) {
-                    // Procesa la estructura anterior antes de comenzar una nueva
-                    procesarEstructura(estructuraActual.toString(), create, identificador, tipoDato, signos, enteros, aritmeticos, logicos, cadena, fecha, Decimal, racional);
-                    estructuraActual.setLength(0); // Limpia el acumulador para la siguiente estructura
+                    procesarEstructura(estructuraActual.toString(), create, identificador, tipoDato, signos, enteros, aritmeticos, logicos, cadena, fecha, Decimal, racional, agregacion);
+                    estructuraActual.setLength(0);
                 }
                 enEstructura = true;
             }
 
-            // Si estamos dentro de una estructura, acumular la línea
             if (enEstructura) {
                 estructuraActual.append(lineaLimpiada).append(" ");
-
-                // Detecta el final de una estructura ';' o ');'
                 if (lineaLimpiada.endsWith(";") || lineaLimpiada.endsWith(");")) {
-                    procesarEstructura(estructuraActual.toString(), create, identificador, tipoDato, signos, enteros, aritmeticos, logicos, cadena, fecha, Decimal, racional);
-                    estructuraActual.setLength(0); // Limpia el acumulador para la siguiente estructura
+                    procesarEstructura(estructuraActual.toString(), create, identificador, tipoDato, signos, enteros, aritmeticos, logicos, cadena, fecha, Decimal, racional, agregacion);
+                    estructuraActual.setLength(0);
                     enEstructura = false;
+                } else {
+                    erroresSintacticos.add(new Errores("Falta ';'", "La instrucción debe terminar con un punto y coma."));
+                    for (Errores error : erroresSintacticos) {
+                        System.out.println("Error: " + error.getError() + " - " + error.getDefinicion());
+                    }
                 }
             }
         }
 
-        // Procesa cualquier estructura que haya quedado sin cerrar al finalizar el bucle
-        if (enEstructura) {
-            procesarEstructura(estructuraActual.toString(), create, identificador, tipoDato, signos, enteros, aritmeticos, logicos, cadena, fecha, Decimal, racional);
-        }
     }
 
     public void procesarEstructura(String consulta, List<Token> create, List<Token> identificador, List<Token> tipoDato, List<Token> signos, List<Token> enteros,
             List<Token> aritmeticos, List<Token> logicos,
-            List<Token> cadena, List<Token> fecha, List<Token> Decimal, List<Token> racional) {
+            List<Token> cadena, List<Token> fecha, List<Token> Decimal, List<Token> racional, List<Token> agregacion) {
         consulta = consulta.trim(); // Eliminar espacios en blanco alrededor de la consulta
 
         // Determinar el tipo de estructura a procesar
@@ -271,12 +300,18 @@ public class AnalizadorSintactico {
             estructuraModificadores(consulta, create, identificador, signos, enteros, tipoDato);
         } else if (consulta.startsWith("INSERT INTO")) { // Añadir procesador para INSERT
             estructuraInsercion(consulta, create, identificador, signos, enteros, aritmeticos, logicos, cadena, fecha, Decimal, racional);
+        } else if (consulta.startsWith("DELETE FROM")) {
+            estructuraEliminacion(consulta, create, identificador, signos, racional, enteros, logicos, Decimal, fecha);
+        } else if (consulta.startsWith("SELECT")) {
+            estructuraLectura(consulta, create, identificador, signos, racional, enteros, logicos, Decimal, fecha, agregacion);
+        } else if (consulta.startsWith("UPDATE")) {
+            estructuraUpdate(consulta, create, identificador, signos, racional, enteros, logicos, Decimal, fecha, aritmeticos);
         } else {
             System.out.println("Error: No se reconoció una estructura válida de 'CREATE DATABASE', 'CREATE TABLE', 'ALTER TABLE', 'DROP TABLE' o 'INSERT INTO'.");
         }
     }
 
-    public void estructuraModificadores(String texto, List<Token> create, List<Token> identificador, List<Token> signos, List<Token> entero, List<Token> tipoDato) {
+    private void estructuraModificadores(String texto, List<Token> create, List<Token> identificador, List<Token> signos, List<Token> entero, List<Token> tipoDato) {
         // Preprocesar el texto para facilitar la separación de palabras clave y signos
         String cleanedTexto = texto.replaceAll("\\(", " ( ").replaceAll("\\)", " ) ")
                 .replaceAll(",", " , ").replaceAll("\\s*;\\s*", " ; ");
@@ -545,10 +580,514 @@ public class AnalizadorSintactico {
         }
         return false;
     }
-    
-    private void estructuraEliminacion(String texto, List<Token> create, List<Token> identificador, List<Token> signos, List<Token> racionales, List<Token> enteros, 
-                                      List<Token> booleanos, List<Token> decimales, List<Token> fecha){
-        
+
+    //No lee decimales
+    private void estructuraEliminacion(String texto, List<Token> create, List<Token> identificador, List<Token> signos,
+            List<Token> racionales, List<Token> enteros, List<Token> booleanos,
+            List<Token> decimales, List<Token> fecha) {
+        texto = texto.trim();
+
+        // Modificación en la expresión regular para no separar los decimales
+        String[] tokens = texto.split(" (?=(?:[^\"']|\"[^\"]*\"|'[^']*')*$)|(?=;)|(?<=;)|(?=\\.)|(?<=\\.)|(?=,)|(?=\\()|(?=\\))|(?<=\\()|(?<=\\))");
+        // Unir tokens decimales
+        List<String> mergedTokens = new ArrayList<>();
+        for (int i = 0; i < tokens.length; i++) {
+            if (i < tokens.length - 2 && tokens[i].matches("[0-9]+") && tokens[i + 1].equals(".") && tokens[i + 2].matches("[0-9]+")) {
+                // Unir el entero, el punto y el otro entero
+                mergedTokens.add(tokens[i] + tokens[i + 1] + tokens[i + 2]);
+                i += 2; // Saltar los dos tokens que ya fueron unidos
+            } else {
+                mergedTokens.add(tokens[i]);
+            }
+        }
+
+        // Convertir la lista de tokens unidos de nuevo a un arreglo
+        tokens = mergedTokens.toArray(new String[0]);
+
+        // Validar la estructura básica de DELETE FROM
+        if (tokens.length < 3 || !tokens[0].equals("DELETE") || !tokens[1].equals("FROM") || !containsToken(identificador, tokens[2])) {
+            System.out.println("Error: Estructura DELETE FROM no válida.");
+            return;
+        }
+
+        int i = 3; // Índice después de "DELETE FROM <identificador>"
+        boolean tieneCondicionWhere = false;
+
+        // Verificar si hay cláusula WHERE
+        if (i < tokens.length && tokens[i].equals("WHERE")) {
+            tieneCondicionWhere = true;
+            i++; // Avanzar después de "WHERE"
+
+            // Procesar condiciones en la cláusula WHERE utilizando el método procesarCondicionWhere
+            if (!procesarCondicionWhere(tokens, new int[]{i}, identificador, signos, racionales, enteros, decimales, booleanos, fecha)) {
+                System.out.println("Error: Condiciones WHERE no válidas.");
+                return; // Salir si las condiciones no son válidas
+            }
+
+            // Avanzar el índice hasta el final de la cláusula WHERE
+            while (i < tokens.length && !tokens[i].equals(";")) {
+                i++;
+            }
+        }
+
+        // Validar punto y coma final
+        if (i < tokens.length && tokens[i].equals(";")) {
+            if (tieneCondicionWhere) {
+                System.out.println("Estructura válida: DELETE con cláusula WHERE.");
+            } else {
+                System.out.println("Estructura válida: DELETE sin cláusula WHERE.");
+            }
+        } else {
+            System.out.println("Error: Estructura de DELETE incompleta.");
+        }
     }
-    
+
+// Método para verificar si un token es decimal
+    private boolean isDecimal(String token) {
+        return token.matches("\\d+\\.\\d+");
+    }
+
+    private void estructuraLectura(String texto, List<Token> create, List<Token> identificador, List<Token> signos,
+            List<Token> racionales, List<Token> enteros, List<Token> booleanos,
+            List<Token> decimales, List<Token> fecha, List<Token> agregacion) {
+        texto = texto.trim();
+
+        // Dividir el texto en tokens utilizando un patrón de separación adecuado, incluyendo comas y paréntesis
+        String[] tokens = texto.split(" (?=(?:[^\"']|\"[^\"]*\"|'[^']*')*$)|(?=;)|(?<=;)|(?=\\.)|(?<=\\.)|(?=,)|(?=\\()|(?=\\))|(?<=\\()|(?<=\\))");
+        // Unir tokens decimales en caso de que estén separados
+        List<String> mergedTokens = new ArrayList<>();
+        for (int i = 0; i < tokens.length; i++) {
+            if (i < tokens.length - 2 && tokens[i].matches("[0-9]+") && tokens[i + 1].equals(".") && tokens[i + 2].matches("[0-9]+")) {
+                mergedTokens.add(tokens[i] + tokens[i + 1] + tokens[i + 2]);
+                i += 2; // Saltar los tokens ya unidos
+            } else {
+                mergedTokens.add(tokens[i]);
+            }
+        }
+        tokens = mergedTokens.toArray(new String[0]);
+
+        // Verificar si comienza con SELECT
+        if (tokens.length > 0 && !tokens[0].equals("SELECT")) {
+            System.out.println("Nota: La sentencia no comienza con 'SELECT', pero será procesada.");
+        }
+
+        int i = 0; // Empezar desde el primer token
+
+        // Si hay al menos un token y es "SELECT", procesamos la selección
+        if (tokens.length > 0 && tokens[i].equals("SELECT")) {
+            i++; // Avanzar después de "SELECT"
+        }
+
+        // Verificar selección de columna o '*'
+        boolean seleccionColumnas = true;
+        if (i < tokens.length && tokens[i].equals("*")) {
+            i++;
+            seleccionColumnas = false;
+        } else {
+            // Procesar selección de columnas
+            while (i < tokens.length && !tokens[i].equals("FROM")) {
+                // Verificar funciones de agregación
+                if (containsToken(agregacion, tokens[i])) {
+                    i++;
+                    if (i < tokens.length && tokens[i].equals("(")) {
+                        i++;
+                        if (i < tokens.length && containsToken(identificador, tokens[i])) {
+                            i++;
+                            if (i < tokens.length && tokens[i].equals(")")) {
+                                i++;
+                                // Verificar si hay un alias AS
+                                if (i < tokens.length && tokens[i].equals("AS")) {
+                                    i++;
+                                    if (i < tokens.length && containsToken(identificador, tokens[i])) {
+                                        i++;
+                                    } else {
+                                        System.out.println("Error: Alias faltante después de 'AS'.");
+                                        return;
+                                    }
+                                }
+                            } else {
+                                System.out.println("Error: Cierre de paréntesis faltante en función de agregación.");
+                                return;
+                            }
+                        } else {
+                            System.out.println("Error: Identificador faltante en función de agregación.");
+                            return;
+                        }
+                    } else {
+                        System.out.println("Error: Apertura de paréntesis faltante en función de agregación.");
+                        return;
+                    }
+                } else if (containsToken(identificador, tokens[i])) {
+                    // Procesar un identificador normal
+                    i++;
+                    // Verificar si hay un punto seguido de otro identificador
+                    if (i < tokens.length && tokens[i].equals(".")) {
+                        i++;
+                        if (i < tokens.length && containsToken(identificador, tokens[i])) {
+                            i++; // Procesar el segundo identificador
+                        } else {
+                            System.out.println("Error: Identificador faltante después del punto.");
+                            return;
+                        }
+                    }
+                    // Verificar si hay un alias AS
+                    if (i < tokens.length && tokens[i].equals("AS")) {
+                        i++;
+                        if (i < tokens.length && containsToken(identificador, tokens[i])) {
+                            i++;
+                        } else {
+                            System.out.println("Error: Alias faltante después de 'AS'.");
+                            return;
+                        }
+                    }
+                } else {
+                    System.out.println("Error: Selección de columna no válida.");
+                    return;
+                }
+
+                // Verificar si hay una coma para separar columnas
+                if (i < tokens.length && tokens[i].equals(",")) {
+                    i++;
+                }
+            }
+        }
+
+        // Verificar "FROM" y el identificador de la tabla
+        if (i < tokens.length && tokens[i].equals("FROM")) {
+            i++;
+            if (i < tokens.length && containsToken(identificador, tokens[i])) {
+                i++;
+            } else {
+                System.out.println("Error: Identificador de tabla faltante después de 'FROM'.");
+                return;
+            }
+        } else {
+            System.out.println("Error: Falta la palabra clave 'FROM'.");
+            return;
+        }
+
+        // Procesar posibles cláusulas adicionales
+        while (i < tokens.length && !tokens[i].equals(";")) {
+            if (tokens[i].equals("JOIN")) {
+                i++;
+                if (i < tokens.length && containsToken(identificador, tokens[i])) {
+                    i++;
+                    if (i < tokens.length && containsToken(identificador, tokens[i])) {
+                        i++;
+                        if (i < tokens.length && tokens[i].equals("ON")) {
+                            i++;
+                            if (containsToken(identificador, tokens[i]) && tokens[i + 1].equals(".") && containsToken(identificador, tokens[i + 2])) {
+                                i += 3;
+                                if (tokens[i].equals("=") && containsToken(identificador, tokens[i + 1]) && tokens[i + 2].equals(".") && containsToken(identificador, tokens[i + 3])) {
+                                    i += 4;
+                                } else {
+                                    System.out.println("Error en la condición JOIN.");
+                                    return;
+                                }
+                            } else if (containsToken(identificador, tokens[i])) {
+                                i++;
+                                if (tokens[i].equals("=") && containsToken(identificador, tokens[i + 1]) && tokens[i + 2].equals(".") && containsToken(identificador, tokens[i + 3])) {
+                                    i += 4;
+                                } else {
+                                    System.out.println("Error en la condición JOIN.");
+                                    return;
+                                }
+                            } else {
+                                System.out.println("Error en los identificadores del JOIN.");
+                                return;
+                            }
+                        } else {
+                            System.out.println("Error: Se esperaba 'ON' en JOIN.");
+                            return;
+                        }
+                    }
+                }
+            } else if (tokens[i].equals("WHERE")) {
+                i++;
+                int[] iRef = {i};
+                if (!procesarCondicionWhere(tokens, iRef, identificador, signos, racionales, enteros, decimales, booleanos, fecha)) {
+                    return;
+                }
+                i = iRef[0]; // Actualizar el valor de i después de procesar
+            } else if (tokens[i].equals("GROUP") && tokens[i + 1].equals("BY")) {
+                i += 2;
+                if (containsToken(identificador, tokens[i])) {
+                    i++;
+                    if (tokens[i].equals(".")) {
+                        i++;
+                        if (containsToken(identificador, tokens[i])) {
+                            i++;
+                        } else {
+                            System.out.println("Error: Identificador compuesto no válido en GROUP BY.");
+                            return;
+                        }
+                    }
+                }
+            } else if (tokens[i].equals("ORDER") && tokens[i + 1].equals("BY")) {
+                i += 2;
+                if (containsToken(identificador, tokens[i])) {
+                    i++;
+                    if (tokens[i].equals(".")) {
+                        i++;
+                        if (containsToken(identificador, tokens[i])) {
+                            i++;
+                        }
+                    }
+                    if (i < tokens.length && (tokens[i].equals("DESC") || tokens[i].equals("ASC"))) {
+                        i++;
+                    }
+                }
+            } else if (tokens[i].equals("LIMIT")) {
+                i++;
+                if (containsToken(enteros, tokens[i])) {
+                    i++;
+                } else {
+                    System.out.println("Error: Valor de LIMIT no válido.");
+                    return;
+                }
+            } else {
+                System.out.println("Error: Estructura de SELECT no válida.");
+                return;
+            }
+        }
+
+        System.out.println("La estructura SELECT es válida.");
+    }
+
+    private boolean procesarCondicionWhere(String[] tokens, int[] iRef, List<Token> identificador, List<Token> signos,
+            List<Token> racionales, List<Token> enteros, List<Token> decimales, List<Token> booleanos, List<Token> fecha) {
+
+        while (iRef[0] < tokens.length && !tokens[iRef[0]].equals(";")
+                && !tokens[iRef[0]].equals("LIMIT") && !tokens[iRef[0]].equals("JOIN")
+                && !tokens[iRef[0]].equals("GROUP") && !tokens[iRef[0]].equals("ORDER")) {
+
+            if (tokens[iRef[0]].equals("(")) {
+                iRef[0]++;
+                if (!procesarCondicionWhere(tokens, iRef, identificador, signos, racionales, enteros, decimales, booleanos, fecha)) {
+                    return false;
+                }
+                if (iRef[0] < tokens.length && tokens[iRef[0]].equals(")")) {
+                    iRef[0]++;
+                } else {
+                    System.out.println("Error: Paréntesis de cierre faltante.");
+                    return false;
+                }
+
+            } else {
+                if (containsToken(identificador, tokens[iRef[0]])) {
+                    iRef[0]++;
+                    if (iRef[0] < tokens.length && tokens[iRef[0]].equals(".")) {
+                        iRef[0]++;
+                        if (iRef[0] < tokens.length && containsToken(identificador, tokens[iRef[0]])) {
+                            iRef[0]++;
+                        } else {
+                            System.out.println("Error: Formato <identificador>.<identificador> no válido.");
+                            return false;
+                        }
+                    }
+
+                    // Permitir la estructura: <identificador> = [DATO]
+                    if (iRef[0] < tokens.length && (tokens[iRef[0]].equals("=") || tokens[iRef[0]].equals(">")
+                            || tokens[iRef[0]].equals("<") || tokens[iRef[0]].equals(">=")
+                            || tokens[iRef[0]].equals("<=") || tokens[iRef[0]].equals("!="))) {
+                        iRef[0]++;
+
+                        if (iRef[0] < tokens.length) {
+                            // Verificar si hay un identificador o estructura identificador.identificador
+                            if (containsToken(identificador, tokens[iRef[0]])) {
+                                iRef[0]++;
+                                if (iRef[0] < tokens.length && tokens[iRef[0]].equals(".")) {
+                                    iRef[0]++;
+                                    if (iRef[0] < tokens.length && containsToken(identificador, tokens[iRef[0]])) {
+                                        iRef[0]++;
+                                    } else {
+                                        System.out.println("Error: Formato <identificador>.<identificador> no válido.");
+                                        return false;
+                                    }
+                                }
+                            } else if (containsToken(enteros, tokens[iRef[0]]) || containsToken(decimales, tokens[iRef[0]])
+                                    || containsToken(booleanos, tokens[iRef[0]]) || containsToken(fecha, tokens[iRef[0]])
+                                    || tokens[iRef[0]].matches("'[^']*'")) {
+                                iRef[0]++;
+                            } else {
+                                System.out.println("Error: Valor no válido tras operador.");
+                                return false;
+                            }
+                        } else {
+                            System.out.println("Error: Valor faltante tras operador.");
+                            return false;
+                        }
+                    } else {
+                        System.out.println("Error: Operador faltante o no válido tras identificador.");
+                        return false;
+                    }
+                } else {
+                    System.out.println("Error: Condición WHERE no válida.");
+                    return false;
+                }
+            }
+
+            // Verificar si hay un operador lógico (AND/OR) para continuar procesando condiciones
+            if (iRef[0] < tokens.length && (tokens[iRef[0]].equals("AND") || tokens[iRef[0]].equals("OR"))) {
+                iRef[0]++;
+                // Verificar la estructura tras el AND/OR; puede ser identificador o identificador.operador.valor
+                if (iRef[0] < tokens.length && containsToken(identificador, tokens[iRef[0]])) {
+                    iRef[0]++;
+                    if (iRef[0] < tokens.length && tokens[iRef[0]].equals(".")) {
+                        iRef[0]++;
+                        if (iRef[0] < tokens.length && containsToken(identificador, tokens[iRef[0]])) {
+                            iRef[0]++;
+                        } else {
+                            System.out.println("Error: Formato <identificador>.<identificador> no válido.");
+                            return false;
+                        }
+                    }
+
+                    // Permitir operador y valor tras <identificador>.<identificador> o <identificador>
+                    if (iRef[0] < tokens.length && (tokens[iRef[0]].equals("=") || tokens[iRef[0]].equals(">")
+                            || tokens[iRef[0]].equals("<") || tokens[iRef[0]].equals(">=")
+                            || tokens[iRef[0]].equals("<=") || tokens[iRef[0]].equals("!="))) {
+                        iRef[0]++;
+                        // Verificar si el valor tras el operador es identificador o identificador.identificador
+                        if (iRef[0] < tokens.length && containsToken(identificador, tokens[iRef[0]])) {
+                            iRef[0]++;
+                            if (iRef[0] < tokens.length && tokens[iRef[0]].equals(".")) {
+                                iRef[0]++;
+                                if (iRef[0] < tokens.length && containsToken(identificador, tokens[iRef[0]])) {
+                                    iRef[0]++;
+                                } else {
+                                    System.out.println("Error: Formato <identificador>.<identificador> no válido.");
+                                    return false;
+                                }
+                            }
+                        } else if (iRef[0] < tokens.length && (containsToken(enteros, tokens[iRef[0]])
+                                || containsToken(decimales, tokens[iRef[0]]) || containsToken(booleanos, tokens[iRef[0]])
+                                || containsToken(fecha, tokens[iRef[0]]) || tokens[iRef[0]].matches("'[^']*'"))) {
+                            iRef[0]++;
+                        } else {
+                            System.out.println("Error: Valor no válido tras operador.");
+                            return false;
+                        }
+                    } else {
+                        System.out.println("Error: Operador faltante o no válido tras identificador.");
+                        return false;
+                    }
+                } else {
+                    System.out.println("Error: Estructura no válida tras AND/OR.");
+                    return false;
+                }
+            } else {
+                break;
+            }
+        }
+        return true;
+    }
+
+    private void estructuraUpdate(String texto, List<Token> create, List<Token> identificador, List<Token> signos,
+            List<Token> racionales, List<Token> enteros, List<Token> booleanos,
+            List<Token> decimales, List<Token> fecha, List<Token> aritmeticos) {
+        texto = texto.trim();
+
+        // Dividir el texto en tokens utilizando un patrón de separación adecuado, ignorando espacios
+        String[] tokens = texto.split(" (?=(?:[^\"']|\"[^\"]*\"|'[^']*')*$)|(?=;)|(?<=;)|(?=\\.)|(?<=\\.)|(?=,)|(?=\\()|(?=\\))|(?<=\\()|(?<=\\))");
+        // Unir tokens decimales en caso de que estén separados
+        List<String> mergedTokens = new ArrayList<>();
+        for (int i = 0; i < tokens.length; i++) {
+            if (i < tokens.length - 2 && tokens[i].matches("[0-9]+") && tokens[i + 1].equals(".") && tokens[i + 2].matches("[0-9]+")) {
+                mergedTokens.add(tokens[i] + tokens[i + 1] + tokens[i + 2]);
+                i += 2; // Saltar los tokens ya unidos
+            } else {
+                mergedTokens.add(tokens[i]);
+            }
+        }
+        tokens = mergedTokens.toArray(new String[0]);
+
+        // Validar la estructura básica de UPDATE
+        if (tokens.length < 4 || !tokens[0].equals("UPDATE") || !containsToken(identificador, tokens[1]) || !tokens[2].equals("SET")) {
+            System.out.println("Error: Estructura UPDATE no válida.");
+            return;
+        }
+
+        int i = 3; // Índice después de "UPDATE <identificador> SET"
+        boolean tieneCondicionWhere = false;
+
+        // Procesar las asignaciones en SET
+        while (i < tokens.length && !tokens[i].equals(";")) {
+            // Verificar que haya un identificador
+            if (!containsToken(identificador, tokens[i])) {
+                System.out.println("Error: Se esperaba un identificador después de SET.");
+                return;
+            }
+
+            String id = tokens[i];
+            i++; // Avanzar después del identificador
+
+            // Verificar si hay un operador de asignación
+            if (i < tokens.length && tokens[i].equals("=")) {
+                i++; // Avanzar después del '='
+            } else {
+                System.out.println("Error: Faltando '=' después del identificador.");
+                return;
+            }
+
+            // Verificar el dato asignado
+            if (i < tokens.length && (containsToken(enteros, tokens[i]) || isDecimal(tokens[i]) || containsToken(create, tokens[i]) || tokens[i].matches("'[^']*'") || tokens[i].equals("TRUE") || tokens[i].equals("FALSE"))) {
+                // Aceptar el dato y avanzar
+                i++; // Avanzar después del dato
+            } else if (i < tokens.length && containsToken(identificador, tokens[i])) {
+                // Si el dato es otro identificador, puede haber una operación aritmética
+                String operandoIzquierdo = tokens[i];
+                i++; // Avanzar después del identificador
+
+                if (i < tokens.length && containsToken(aritmeticos, tokens[i])) {
+                    String operadorAritmetico = tokens[i];
+                    i++; // Avanzar después del operador
+
+                    // Verificar el operando derecho
+                    if (i < tokens.length && (containsToken(enteros, tokens[i]) || isDecimal(tokens[i]) || containsToken(create, tokens[i]) || tokens[i].matches("'[^']*'") || tokens[i].equals("TRUE") || tokens[i].equals("FALSE"))) {
+                        i++; // Avanzar después del dato derecho
+                    } else {
+                        System.out.println("Error: Dato derecho no válido en la operación.");
+                        return;
+                    }
+                } else {
+                    System.out.println("Error: Operador aritmético faltante.");
+                    return;
+                }
+            } else {
+                System.out.println("Error: Dato no válido después de '='.");
+                return;
+            }
+
+            // Verificar si hay una coma para continuar con la siguiente asignación
+            if (i < tokens.length && tokens[i].equals(",")) {
+                i++; // Avanzar después de la coma
+            } else {
+                break; // No hay más asignaciones
+            }
+        }
+
+        // Verificar si hay una cláusula WHERE
+        if (i < tokens.length && tokens[i].equals("WHERE")) {
+            tieneCondicionWhere = true;
+            i++;
+            int[] iRef = {i};
+            if (!procesarCondicionWhere(tokens, iRef, identificador, signos, racionales, enteros, decimales, booleanos, fecha)) {
+                return;
+            }
+            i = iRef[0];
+        }
+
+        // Validar punto y coma final
+        if (i < tokens.length && tokens[i].equals(";")) {
+            if (tieneCondicionWhere) {
+                System.out.println("Estructura válida: UPDATE con cláusula WHERE.");
+            } else {
+                System.out.println("Estructura válida: UPDATE sin cláusula WHERE.");
+            }
+        } else {
+            System.out.println("Error: Estructura de UPDATE incompleta.");
+        }
+    }
+
 }

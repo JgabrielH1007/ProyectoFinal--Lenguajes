@@ -71,24 +71,24 @@ public class AnalizadorLexico {
   private static final int [] ZZ_CMAP_BLOCKS = zzUnpackcmap_blocks();
 
   private static final String ZZ_CMAP_BLOCKS_PACKED_0 =
-    "\10\0\1\1\1\2\1\3\1\4\1\5\1\3\22\0"+
-    "\1\2\6\0\1\6\2\7\2\10\1\7\1\11\1\7"+
-    "\1\10\1\12\1\13\1\14\1\15\6\16\1\0\1\7"+
-    "\1\17\1\20\1\17\2\0\1\21\1\22\1\23\1\24"+
+    "\10\0\2\1\1\2\2\3\1\2\22\0\1\1\6\0"+
+    "\1\4\2\5\2\6\1\5\1\7\1\5\1\6\1\10"+
+    "\1\11\1\12\1\13\6\14\1\0\1\5\1\15\1\16"+
+    "\1\15\2\0\1\17\1\20\1\21\1\22\1\23\1\24"+
     "\1\25\1\26\1\27\1\30\1\31\1\32\1\33\1\34"+
     "\1\35\1\36\1\37\1\40\1\41\1\42\1\43\1\44"+
-    "\1\45\1\46\1\47\1\50\1\51\5\0\1\52\1\0"+
-    "\32\53\12\0\1\4\u01da\0\12\54\206\0\12\54\306\0"+
-    "\12\54\234\0\12\54\166\0\12\54\140\0\12\54\166\0"+
-    "\12\54\106\0\12\54\u0116\0\12\54\106\0\12\54\u0146\0"+
-    "\12\54\46\0\12\54\u012c\0\12\54\200\0\12\54\246\0"+
-    "\12\54\6\0\12\54\266\0\12\54\126\0\12\54\206\0"+
-    "\12\54\6\0\12\54\316\0\2\4\u01a6\0\12\54\46\0"+
-    "\12\54\306\0\12\54\26\0\12\54\126\0\12\54\u0196\0"+
-    "\12\54\6\0\u0100\4\240\0\12\54\206\0\12\54\u012c\0"+
-    "\12\54\200\0\12\54\74\0\12\54\220\0\12\54\166\0"+
-    "\12\54\146\0\12\54\206\0\12\54\106\0\12\54\266\0"+
-    "\12\54\u0164\0\62\54\100\0\12\54\266\0";
+    "\1\45\1\46\1\47\5\0\1\50\1\0\32\51\12\0"+
+    "\1\3\u01da\0\12\52\206\0\12\52\306\0\12\52\234\0"+
+    "\12\52\166\0\12\52\140\0\12\52\166\0\12\52\106\0"+
+    "\12\52\u0116\0\12\52\106\0\12\52\u0146\0\12\52\46\0"+
+    "\12\52\u012c\0\12\52\200\0\12\52\246\0\12\52\6\0"+
+    "\12\52\266\0\12\52\126\0\12\52\206\0\12\52\6\0"+
+    "\12\52\316\0\2\3\u01a6\0\12\52\46\0\12\52\306\0"+
+    "\12\52\26\0\12\52\126\0\12\52\u0196\0\12\52\6\0"+
+    "\u0100\3\240\0\12\52\206\0\12\52\u012c\0\12\52\200\0"+
+    "\12\52\74\0\12\52\220\0\12\52\166\0\12\52\146\0"+
+    "\12\52\206\0\12\52\106\0\12\52\266\0\12\52\u0164\0"+
+    "\62\52\100\0\12\52\266\0";
 
   private static int [] zzUnpackcmap_blocks() {
     int [] result = new int[7424];
@@ -116,22 +116,22 @@ public class AnalizadorLexico {
 
   private static final String ZZ_ACTION_PACKED_0 =
     "\1\0\1\1\1\2\1\3\1\1\1\4\2\5\1\6"+
-    "\1\7\25\1\1\10\1\0\1\11\4\0\1\10\1\7"+
-    "\3\0\1\12\3\0\1\13\13\0\1\14\10\0\1\15"+
-    "\1\16\16\0\1\17\2\20\1\21\1\0\1\16\1\22"+
-    "\1\23\24\0\1\24\1\0\1\25\1\26\6\0\1\27"+
-    "\1\30\12\0\1\17\11\0\1\31\2\0\1\32\1\33"+
-    "\3\0\1\34\3\0\1\35\1\36\1\0\1\37\6\0"+
-    "\1\40\1\41\1\42\6\0\1\43\5\0\1\44\4\0"+
-    "\1\45\1\46\1\0\1\47\2\0\1\50\1\51\4\0"+
-    "\1\52\4\0\1\53\1\0\1\54\2\0\1\55\1\0"+
-    "\1\56\2\0\1\57\1\0\1\60\3\0\1\61\1\62"+
-    "\1\63\1\64\1\65\3\0\1\66\1\67\2\0\1\70"+
-    "\1\71\1\72\1\73\1\0\1\74\2\0\1\75\7\0"+
-    "\1\76\1\77\1\0\1\100";
+    "\1\7\1\10\25\1\1\11\1\0\1\12\1\0\1\13"+
+    "\2\0\1\11\1\7\3\0\1\14\3\0\1\15\13\0"+
+    "\1\16\10\0\1\17\1\20\16\0\2\21\1\22\1\0"+
+    "\1\20\1\23\1\24\24\0\1\25\1\0\1\26\1\27"+
+    "\6\0\1\30\1\31\23\0\1\32\2\0\1\33\1\34"+
+    "\3\0\1\35\3\0\1\36\1\37\1\0\1\40\6\0"+
+    "\1\41\1\42\1\43\6\0\1\44\5\0\1\45\4\0"+
+    "\1\46\1\47\1\0\1\50\2\0\1\51\1\52\4\0"+
+    "\1\53\4\0\1\54\1\0\1\55\2\0\1\56\1\0"+
+    "\1\57\2\0\1\60\1\0\1\61\3\0\1\62\1\63"+
+    "\1\64\1\65\1\66\3\0\1\67\1\70\2\0\1\71"+
+    "\1\72\1\73\1\74\1\0\1\75\2\0\1\76\7\0"+
+    "\1\77\1\100\1\0\1\101";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[251];
+    int [] result = new int[250];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -156,41 +156,41 @@ public class AnalizadorLexico {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\55\0\55\0\55\0\132\0\55\0\55\0\207"+
-    "\0\264\0\341\0\u010e\0\u013b\0\u0168\0\u0195\0\u01c2\0\u01ef"+
-    "\0\u021c\0\u0249\0\u0276\0\u02a3\0\u02d0\0\u02fd\0\u032a\0\u0357"+
-    "\0\u0384\0\u03b1\0\u03de\0\u040b\0\u0438\0\u0465\0\u0492\0\u04bf"+
-    "\0\u04ec\0\55\0\u0519\0\u0546\0\u0573\0\u05a0\0\u05cd\0\55"+
-    "\0\u05fa\0\u0627\0\u0654\0\u0681\0\u06ae\0\u06db\0\u0708\0\55"+
-    "\0\u0735\0\u0762\0\u078f\0\u07bc\0\u07e9\0\u0816\0\u0843\0\u0870"+
-    "\0\u089d\0\u08ca\0\u08f7\0\55\0\u0924\0\u0951\0\u097e\0\u09ab"+
-    "\0\u09d8\0\u0a05\0\u0a32\0\u0a5f\0\55\0\u0a8c\0\u0ab9\0\u0ae6"+
-    "\0\u0b13\0\u0b40\0\u0b6d\0\u0b9a\0\u0bc7\0\u0bf4\0\u0c21\0\u0c4e"+
-    "\0\u0c7b\0\u0ca8\0\u0cd5\0\u0d02\0\u0d2f\0\u0573\0\u05cd\0\55"+
-    "\0\u0d5c\0\55\0\55\0\55\0\u0d89\0\u0db6\0\u0de3\0\u0e10"+
-    "\0\u0e3d\0\u0e6a\0\u0e97\0\u0ec4\0\u0ef1\0\u0f1e\0\u0f4b\0\u0f78"+
-    "\0\u0fa5\0\u0fd2\0\u0fff\0\u102c\0\u1059\0\u1086\0\u10b3\0\u10e0"+
-    "\0\55\0\u110d\0\55\0\55\0\u113a\0\u1167\0\u1194\0\u11c1"+
-    "\0\u11ee\0\u121b\0\55\0\55\0\u1248\0\u1275\0\u12a2\0\u12cf"+
-    "\0\u12fc\0\u1329\0\u1356\0\u1383\0\u13b0\0\u13dd\0\u140a\0\u1437"+
-    "\0\u1464\0\u1491\0\u14be\0\u14eb\0\u1518\0\u1545\0\u1572\0\u159f"+
-    "\0\55\0\u15cc\0\u15f9\0\55\0\55\0\u1626\0\u1653\0\u1680"+
-    "\0\55\0\u16ad\0\u16da\0\u1707\0\55\0\55\0\u1734\0\55"+
-    "\0\u1761\0\u178e\0\u17bb\0\u17e8\0\u1815\0\u1842\0\55\0\55"+
-    "\0\55\0\u186f\0\u189c\0\u18c9\0\u18f6\0\u1923\0\u1950\0\55"+
-    "\0\u197d\0\u19aa\0\u19d7\0\u1a04\0\u1a31\0\55\0\u1a5e\0\u1a8b"+
-    "\0\u1ab8\0\u1ae5\0\55\0\55\0\u1b12\0\55\0\u1b3f\0\u1b6c"+
-    "\0\55\0\55\0\u1b99\0\u1bc6\0\u1bf3\0\u1c20\0\55\0\u1c4d"+
-    "\0\u1c7a\0\u1ca7\0\u1cd4\0\55\0\u1d01\0\55\0\u1d2e\0\u1d5b"+
-    "\0\55\0\u1d88\0\55\0\u1db5\0\u1de2\0\55\0\u1e0f\0\55"+
-    "\0\u1e3c\0\u1e69\0\u1e96\0\55\0\55\0\55\0\55\0\55"+
-    "\0\u1ec3\0\u1ef0\0\u1f1d\0\55\0\55\0\u1f4a\0\u1f77\0\55"+
-    "\0\55\0\55\0\55\0\u1fa4\0\55\0\u1fd1\0\u1ffe\0\55"+
-    "\0\u202b\0\u2058\0\u2085\0\u20b2\0\u20df\0\u210c\0\u2139\0\55"+
-    "\0\55\0\u2166\0\55";
+    "\0\0\0\53\0\53\0\53\0\126\0\53\0\53\0\201"+
+    "\0\254\0\327\0\53\0\u0102\0\u012d\0\u0158\0\u0183\0\u01ae"+
+    "\0\u01d9\0\u0204\0\u022f\0\u025a\0\u0285\0\u02b0\0\u02db\0\u0306"+
+    "\0\u0331\0\u035c\0\u0387\0\u03b2\0\u03dd\0\u0408\0\u0433\0\u045e"+
+    "\0\u0489\0\u04b4\0\53\0\u04df\0\u050a\0\u0535\0\u0560\0\u058b"+
+    "\0\53\0\u05b6\0\u05e1\0\u060c\0\u0637\0\u0662\0\u068d\0\u06b8"+
+    "\0\53\0\u06e3\0\u070e\0\u0739\0\u0764\0\u078f\0\u07ba\0\u07e5"+
+    "\0\u0810\0\u083b\0\u0866\0\u0891\0\53\0\u08bc\0\u08e7\0\u0912"+
+    "\0\u093d\0\u0968\0\u0993\0\u09be\0\u09e9\0\53\0\u0a14\0\u0a3f"+
+    "\0\u0a6a\0\u0a95\0\u0ac0\0\u0aeb\0\u0b16\0\u0b41\0\u0b6c\0\u0b97"+
+    "\0\u0bc2\0\u0bed\0\u0c18\0\u0c43\0\u0c6e\0\u0535\0\u058b\0\53"+
+    "\0\u0c99\0\53\0\53\0\53\0\u0cc4\0\u0cef\0\u0d1a\0\u0d45"+
+    "\0\u0d70\0\u0d9b\0\u0dc6\0\u0df1\0\u0e1c\0\u0e47\0\u0e72\0\u0e9d"+
+    "\0\u0ec8\0\u0ef3\0\u0f1e\0\u0f49\0\u0f74\0\u0f9f\0\u0fca\0\u0ff5"+
+    "\0\53\0\u1020\0\53\0\53\0\u104b\0\u1076\0\u10a1\0\u10cc"+
+    "\0\u10f7\0\u1122\0\53\0\53\0\u114d\0\u1178\0\u11a3\0\u11ce"+
+    "\0\u11f9\0\u1224\0\u124f\0\u127a\0\u12a5\0\u12d0\0\u12fb\0\u1326"+
+    "\0\u1351\0\u137c\0\u13a7\0\u13d2\0\u13fd\0\u1428\0\u1453\0\53"+
+    "\0\u147e\0\u14a9\0\53\0\53\0\u14d4\0\u14ff\0\u152a\0\53"+
+    "\0\u1555\0\u1580\0\u15ab\0\53\0\53\0\u15d6\0\53\0\u1601"+
+    "\0\u162c\0\u1657\0\u1682\0\u16ad\0\u16d8\0\53\0\53\0\53"+
+    "\0\u1703\0\u172e\0\u1759\0\u1784\0\u17af\0\u17da\0\53\0\u1805"+
+    "\0\u1830\0\u185b\0\u1886\0\u18b1\0\53\0\u18dc\0\u1907\0\u1932"+
+    "\0\u195d\0\53\0\53\0\u1988\0\53\0\u19b3\0\u19de\0\53"+
+    "\0\53\0\u1a09\0\u1a34\0\u1a5f\0\u1a8a\0\53\0\u1ab5\0\u1ae0"+
+    "\0\u1b0b\0\u1b36\0\53\0\u1b61\0\53\0\u1b8c\0\u1bb7\0\53"+
+    "\0\u1be2\0\53\0\u1c0d\0\u1c38\0\53\0\u1c63\0\53\0\u1c8e"+
+    "\0\u1cb9\0\u1ce4\0\53\0\53\0\53\0\53\0\53\0\u1d0f"+
+    "\0\u1d3a\0\u1d65\0\53\0\53\0\u1d90\0\u1dbb\0\53\0\53"+
+    "\0\53\0\53\0\u1de6\0\53\0\u1e11\0\u1e3c\0\53\0\u1e67"+
+    "\0\u1e92\0\u1ebd\0\u1ee8\0\u1f13\0\u1f3e\0\u1f69\0\53\0\53"+
+    "\0\u1f94\0\53";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[251];
+    int [] result = new int[250];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -213,78 +213,77 @@ public class AnalizadorLexico {
   private static final int [] ZZ_TRANS = zzUnpacktrans();
 
   private static final String ZZ_TRANS_PACKED_0 =
-    "\1\2\3\3\2\4\1\5\1\6\1\7\1\10\5\11"+
-    "\1\12\1\6\1\13\1\14\1\15\1\16\1\17\1\20"+
-    "\1\21\1\2\1\22\1\23\1\24\1\25\1\26\1\27"+
-    "\1\30\1\31\1\2\1\32\1\33\1\34\1\35\1\36"+
-    "\1\37\3\2\1\40\1\2\55\0\6\41\1\42\3\41"+
-    "\5\43\35\41\1\43\11\0\1\44\43\0\3\45\3\0"+
-    "\4\45\5\11\33\45\1\46\1\47\1\45\20\0\1\50"+
-    "\60\0\1\51\7\0\1\52\1\0\1\53\4\0\1\54"+
-    "\2\0\1\55\37\0\1\56\5\0\1\57\11\0\1\60"+
-    "\24\0\1\61\15\0\1\62\2\0\1\63\33\0\1\64"+
-    "\3\0\1\65\14\0\1\66\62\0\1\67\25\0\1\70"+
-    "\15\0\1\71\2\0\1\72\54\0\1\73\40\0\1\74"+
-    "\7\0\1\75\55\0\1\76\42\0\1\77\60\0\1\100"+
-    "\44\0\1\101\7\0\1\102\62\0\1\103\5\0\1\104"+
-    "\45\0\1\105\3\0\1\106\54\0\1\107\37\0\1\110"+
-    "\54\0\1\111\17\0\1\112\30\0\1\113\3\0\1\114"+
-    "\14\0\1\115\6\0\1\116\41\0\1\117\1\0\1\120"+
-    "\35\0\1\121\63\0\1\122\36\0\5\40\33\0\1\123"+
-    "\1\40\1\0\6\41\1\42\54\41\1\42\3\41\5\124"+
-    "\35\41\1\124\2\0\2\125\1\0\1\125\61\0\5\126"+
-    "\50\0\5\127\34\0\1\40\13\0\5\127\33\0\1\123"+
-    "\1\40\25\0\1\130\74\0\1\131\34\0\1\132\53\0"+
-    "\1\133\60\0\1\134\54\0\1\135\64\0\1\136\60\0"+
-    "\1\137\45\0\1\140\1\0\1\141\6\0\1\142\34\0"+
-    "\1\143\73\0\1\144\33\0\1\145\10\0\1\146\6\0"+
-    "\1\147\50\0\1\150\46\0\1\151\57\0\1\152\62\0"+
-    "\1\153\51\0\1\154\54\0\1\155\60\0\1\156\1\157"+
-    "\41\0\1\160\74\0\1\161\40\0\1\162\67\0\1\163"+
-    "\42\0\1\164\62\0\1\132\44\0\1\165\44\0\1\166"+
-    "\61\0\1\167\51\0\1\170\62\0\1\171\5\0\1\172"+
-    "\1\0\1\173\45\0\1\174\41\0\1\175\102\0\1\176"+
-    "\51\0\1\177\47\0\1\200\45\0\1\201\47\0\1\202"+
-    "\64\0\1\203\5\0\1\204\37\0\1\205\41\0\5\40"+
-    "\34\0\1\40\1\0\6\41\1\42\3\41\5\206\35\41"+
-    "\1\206\2\207\2\125\1\207\1\125\47\207\25\0\1\210"+
-    "\60\0\1\211\57\0\1\212\43\0\1\213\76\0\1\214"+
-    "\52\0\1\215\47\0\1\216\37\0\1\217\54\0\1\220"+
-    "\3\0\1\221\60\0\1\222\50\0\1\223\52\0\1\224"+
-    "\71\0\1\225\57\0\1\226\54\0\1\227\36\0\1\230"+
-    "\64\0\1\231\64\0\1\232\34\0\1\233\54\0\1\234"+
-    "\11\0\1\235\53\0\1\236\47\0\1\237\57\0\1\240"+
-    "\45\0\1\241\64\0\1\242\44\0\1\243\54\0\1\244"+
-    "\60\0\1\245\57\0\1\246\64\0\1\247\35\0\1\250"+
-    "\54\0\1\251\70\0\1\252\34\0\1\253\100\0\1\254"+
-    "\32\0\1\255\73\0\1\256\12\0\6\41\1\42\3\41"+
-    "\5\257\35\41\1\257\3\207\1\0\51\207\42\0\1\260"+
-    "\50\0\1\261\43\0\1\262\50\0\1\263\70\0\1\264"+
-    "\63\0\1\265\54\0\1\266\54\0\1\267\32\0\1\270"+
-    "\67\0\1\271\63\0\1\272\54\0\1\273\35\0\1\274"+
-    "\60\0\1\275\63\0\1\276\56\0\1\277\41\0\1\300"+
-    "\71\0\1\301\52\0\1\302\33\0\1\303\75\0\1\304"+
-    "\35\0\1\305\52\0\1\306\60\0\1\307\74\0\1\310"+
-    "\53\0\1\311\35\0\1\312\57\0\1\313\51\0\1\314"+
-    "\27\0\6\41\1\42\2\41\1\315\43\41\44\0\1\316"+
-    "\31\0\1\317\57\0\1\320\66\0\1\321\60\0\1\322"+
-    "\37\0\1\323\50\0\1\324\54\0\1\325\60\0\1\326"+
-    "\56\0\1\327\71\0\1\330\35\0\1\331\71\0\1\332"+
-    "\37\0\1\333\73\0\1\334\44\0\1\335\45\0\1\336"+
-    "\54\0\1\337\72\0\1\340\32\0\1\341\33\0\6\41"+
-    "\1\42\3\41\1\342\1\343\41\41\36\0\1\344\43\0"+
-    "\1\345\50\0\1\346\76\0\1\347\45\0\1\350\56\0"+
-    "\1\351\60\0\1\352\63\0\1\353\41\0\1\354\60\0"+
-    "\1\355\12\0\6\41\1\42\4\41\4\356\44\41\1\42"+
-    "\3\41\3\356\40\41\31\0\1\357\50\0\1\360\52\0"+
-    "\1\361\31\0\6\41\1\42\2\41\1\362\43\41\36\0"+
-    "\1\363\43\0\1\364\27\0\6\41\1\42\3\41\1\365"+
-    "\2\366\1\367\37\41\44\0\1\370\53\0\1\371\11\0"+
-    "\6\41\1\42\4\41\4\372\44\41\1\42\3\41\5\372"+
-    "\44\41\1\42\3\41\2\372\47\41\1\373\46\41";
+    "\1\2\2\3\1\4\1\5\1\6\1\7\1\10\5\11"+
+    "\1\12\1\13\1\14\1\15\1\16\1\17\1\20\1\21"+
+    "\1\22\1\2\1\23\1\24\1\25\1\26\1\27\1\30"+
+    "\1\31\1\32\1\2\1\33\1\34\1\35\1\36\1\37"+
+    "\1\40\3\2\1\41\1\2\53\0\4\42\1\43\3\42"+
+    "\5\44\35\42\1\44\7\0\1\45\43\0\2\46\2\0"+
+    "\4\46\5\11\33\46\1\47\1\50\1\46\16\0\1\51"+
+    "\56\0\1\52\7\0\1\53\1\0\1\54\4\0\1\55"+
+    "\2\0\1\56\35\0\1\57\5\0\1\60\11\0\1\61"+
+    "\22\0\1\62\15\0\1\63\2\0\1\64\31\0\1\65"+
+    "\3\0\1\66\14\0\1\67\60\0\1\70\23\0\1\71"+
+    "\15\0\1\72\2\0\1\73\52\0\1\74\36\0\1\75"+
+    "\7\0\1\76\53\0\1\77\40\0\1\100\56\0\1\101"+
+    "\42\0\1\102\7\0\1\103\60\0\1\104\5\0\1\105"+
+    "\43\0\1\106\3\0\1\107\52\0\1\110\35\0\1\111"+
+    "\52\0\1\112\17\0\1\113\26\0\1\114\3\0\1\115"+
+    "\14\0\1\116\6\0\1\117\37\0\1\120\1\0\1\121"+
+    "\33\0\1\122\61\0\1\123\34\0\5\41\33\0\1\124"+
+    "\1\41\1\0\4\42\1\43\52\42\1\43\3\42\5\125"+
+    "\35\42\1\125\2\45\1\0\50\45\10\0\5\126\46\0"+
+    "\5\127\34\0\1\41\11\0\5\127\33\0\1\124\1\41"+
+    "\23\0\1\130\72\0\1\131\32\0\1\132\51\0\1\133"+
+    "\56\0\1\134\52\0\1\135\62\0\1\136\56\0\1\137"+
+    "\43\0\1\140\1\0\1\141\6\0\1\142\32\0\1\143"+
+    "\71\0\1\144\31\0\1\145\10\0\1\146\6\0\1\147"+
+    "\46\0\1\150\44\0\1\151\55\0\1\152\60\0\1\153"+
+    "\47\0\1\154\52\0\1\155\56\0\1\156\1\157\37\0"+
+    "\1\160\72\0\1\161\36\0\1\162\65\0\1\163\40\0"+
+    "\1\164\60\0\1\132\42\0\1\165\42\0\1\166\57\0"+
+    "\1\167\47\0\1\170\60\0\1\171\5\0\1\172\1\0"+
+    "\1\173\43\0\1\174\37\0\1\175\100\0\1\176\47\0"+
+    "\1\177\45\0\1\200\43\0\1\201\45\0\1\202\62\0"+
+    "\1\203\5\0\1\204\35\0\1\205\37\0\5\41\34\0"+
+    "\1\41\1\0\4\42\1\43\3\42\5\206\35\42\1\206"+
+    "\23\0\1\207\56\0\1\210\55\0\1\211\41\0\1\212"+
+    "\74\0\1\213\50\0\1\214\45\0\1\215\35\0\1\216"+
+    "\52\0\1\217\3\0\1\220\56\0\1\221\46\0\1\222"+
+    "\50\0\1\223\67\0\1\224\55\0\1\225\52\0\1\226"+
+    "\34\0\1\227\62\0\1\230\62\0\1\231\32\0\1\232"+
+    "\52\0\1\233\11\0\1\234\51\0\1\235\45\0\1\236"+
+    "\55\0\1\237\43\0\1\240\62\0\1\241\42\0\1\242"+
+    "\52\0\1\243\56\0\1\244\55\0\1\245\62\0\1\246"+
+    "\33\0\1\247\52\0\1\250\66\0\1\251\32\0\1\252"+
+    "\76\0\1\253\30\0\1\254\71\0\1\255\12\0\4\42"+
+    "\1\43\3\42\5\256\35\42\1\256\40\0\1\257\46\0"+
+    "\1\260\41\0\1\261\46\0\1\262\66\0\1\263\61\0"+
+    "\1\264\52\0\1\265\52\0\1\266\30\0\1\267\65\0"+
+    "\1\270\61\0\1\271\52\0\1\272\33\0\1\273\56\0"+
+    "\1\274\61\0\1\275\54\0\1\276\37\0\1\277\67\0"+
+    "\1\300\50\0\1\301\31\0\1\302\73\0\1\303\33\0"+
+    "\1\304\50\0\1\305\56\0\1\306\72\0\1\307\51\0"+
+    "\1\310\33\0\1\311\55\0\1\312\47\0\1\313\27\0"+
+    "\4\42\1\43\2\42\1\314\43\42\42\0\1\315\27\0"+
+    "\1\316\55\0\1\317\64\0\1\320\56\0\1\321\35\0"+
+    "\1\322\46\0\1\323\52\0\1\324\56\0\1\325\54\0"+
+    "\1\326\67\0\1\327\33\0\1\330\67\0\1\331\35\0"+
+    "\1\332\71\0\1\333\42\0\1\334\43\0\1\335\52\0"+
+    "\1\336\70\0\1\337\30\0\1\340\33\0\4\42\1\43"+
+    "\3\42\1\341\1\342\41\42\34\0\1\343\41\0\1\344"+
+    "\46\0\1\345\74\0\1\346\43\0\1\347\54\0\1\350"+
+    "\56\0\1\351\61\0\1\352\37\0\1\353\56\0\1\354"+
+    "\12\0\4\42\1\43\4\42\4\355\42\42\1\43\3\42"+
+    "\3\355\40\42\27\0\1\356\46\0\1\357\50\0\1\360"+
+    "\31\0\4\42\1\43\2\42\1\361\43\42\34\0\1\362"+
+    "\41\0\1\363\27\0\4\42\1\43\3\42\1\364\2\365"+
+    "\1\366\37\42\42\0\1\367\51\0\1\370\11\0\4\42"+
+    "\1\43\4\42\4\371\42\42\1\43\3\42\5\371\42\42"+
+    "\1\43\3\42\2\371\45\42\1\372\46\42";
 
   private static int [] zzUnpacktrans() {
-    int [] result = new int[8595];
+    int [] result = new int[8127];
     int offset = 0;
     offset = zzUnpacktrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -327,20 +326,20 @@ public class AnalizadorLexico {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\1\0\3\11\1\1\2\11\31\1\1\0\1\11\4\0"+
-    "\1\1\1\11\3\0\1\1\3\0\1\11\13\0\1\11"+
-    "\10\0\1\11\1\1\16\0\3\1\1\11\1\0\3\11"+
-    "\24\0\1\11\1\0\2\11\6\0\2\11\12\0\1\1"+
-    "\11\0\1\11\2\0\2\11\3\0\1\11\3\0\2\11"+
-    "\1\0\1\11\6\0\3\11\6\0\1\11\5\0\1\11"+
-    "\4\0\2\11\1\0\1\11\2\0\2\11\4\0\1\11"+
-    "\4\0\1\11\1\0\1\11\2\0\1\11\1\0\1\11"+
-    "\2\0\1\11\1\0\1\11\3\0\5\11\3\0\2\11"+
-    "\2\0\4\11\1\0\1\11\2\0\1\11\7\0\2\11"+
-    "\1\0\1\11";
+    "\1\0\3\11\1\1\2\11\3\1\1\11\26\1\1\0"+
+    "\1\11\1\0\1\1\2\0\1\1\1\11\3\0\1\1"+
+    "\3\0\1\11\13\0\1\11\10\0\1\11\1\1\16\0"+
+    "\2\1\1\11\1\0\3\11\24\0\1\11\1\0\2\11"+
+    "\6\0\2\11\23\0\1\11\2\0\2\11\3\0\1\11"+
+    "\3\0\2\11\1\0\1\11\6\0\3\11\6\0\1\11"+
+    "\5\0\1\11\4\0\2\11\1\0\1\11\2\0\2\11"+
+    "\4\0\1\11\4\0\1\11\1\0\1\11\2\0\1\11"+
+    "\1\0\1\11\2\0\1\11\1\0\1\11\3\0\5\11"+
+    "\3\0\2\11\2\0\4\11\1\0\1\11\2\0\1\11"+
+    "\7\0\2\11\1\0\1\11";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[251];
+    int [] result = new int[250];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -987,322 +986,327 @@ public int getColumna() {
                      addListaErrores("ERROR>> Linea: "+yyline + ", columna: "+ yycolumn+", Token -> "+yytext());
             }
           // fall through
-          case 65: break;
+          case 66: break;
           case 2:
             { /* Ignore */
             }
           // fall through
-          case 66: break;
+          case 67: break;
           case 3:
             { System.out.print(yytext());
             }
           // fall through
-          case 67: break;
+          case 68: break;
           case 4:
             { addListSignos(yytext()); System.out.println("SIGNO: " + yytext());
             }
           // fall through
-          case 68: break;
+          case 69: break;
           case 5:
             { addListAritmeticos(yytext()); System.out.println("ARITMETICO: " + yytext());
             }
           // fall through
-          case 69: break;
+          case 70: break;
           case 6:
             { addListEntero(yytext()); System.out.println("ENTERO: " + yytext());
             }
           // fall through
-          case 70: break;
+          case 71: break;
           case 7:
             { addListRacionales(yytext()); System.out.println("RACIONAL: " + yytext());
             }
           // fall through
-          case 71: break;
-          case 8:
-            { addListIdentificador(yytext()); System.out.println("IDENTIFICADOR: "+yytext());
-            }
-          // fall through
           case 72: break;
-          case 9:
-            { addListCadena(yytext()); System.out.println("CADENA: " + yytext());
+          case 8:
+            { addListRacionales(yytext()); System.out.println("SIGNO: " + yytext());
             }
           // fall through
           case 73: break;
-          case 10:
-            { addListCreate(yytext()); System.out.println("AS: " + yytext());
+          case 9:
+            { addListIdentificador(yytext()); System.out.println("IDENTIFICADOR: "+yytext());
             }
           // fall through
           case 74: break;
-          case 11:
-            { addListCreate(yytext()); System.out.println("BY: " + yytext());
+          case 10:
+            { addListCadena(yytext()); System.out.println("CADENA: " + yytext());
             }
           // fall through
           case 75: break;
-          case 12:
-            { addListCreate(yytext()); System.out.println("IF: " + yytext());
-            }
-          // fall through
-          case 76: break;
-          case 13:
-            { addListCreate(yytext()); System.out.println("ON: " + yytext());
-            }
-          // fall through
-          case 77: break;
-          case 14:
-            { addListLogicos(yytext()); System.out.println("LOGICO: " + yytext());
-            }
-          // fall through
-          case 78: break;
-          case 15:
+          case 11:
             { addListComentario(yytext()); System.out.println("COMENTARIO: " + yytext());
             }
           // fall through
+          case 76: break;
+          case 12:
+            { addListCreate(yytext()); System.out.println("AS: " + yytext());
+            }
+          // fall through
+          case 77: break;
+          case 13:
+            { addListCreate(yytext()); System.out.println("BY: " + yytext());
+            }
+          // fall through
+          case 78: break;
+          case 14:
+            { addListCreate(yytext()); System.out.println("IF: " + yytext());
+            }
+          // fall through
           case 79: break;
-          case 16:
-            { addListDecimal(yytext()); System.out.println("DECIMAL: " + yytext());
+          case 15:
+            { addListCreate(yytext()); System.out.println("ON: " + yytext());
             }
           // fall through
           case 80: break;
-          case 17:
-            { addListCreate(yytext()); System.out.println("ADD: " + yytext());
+          case 16:
+            { addListLogicos(yytext()); System.out.println("LOGICO: " + yytext());
             }
           // fall through
           case 81: break;
-          case 18:
-            { addListCreate(yytext()); System.out.println("ASC: " + yytext());
+          case 17:
+            { addListDecimal(yytext()); System.out.println("DECIMAL: " + yytext());
             }
           // fall through
           case 82: break;
-          case 19:
-            { addListAgregacion(yytext()); System.out.println("AVG: " + yytext());
+          case 18:
+            { addListCreate(yytext()); System.out.println("ADD: " + yytext());
             }
           // fall through
           case 83: break;
-          case 20:
-            { addListCreate(yytext()); System.out.println("KEY: " + yytext());
+          case 19:
+            { addListCreate(yytext()); System.out.println("ASC: " + yytext());
             }
           // fall through
           case 84: break;
-          case 21:
-            { addListAgregacion(yytext()); System.out.println("MAX: " + yytext());
+          case 20:
+            { addListAgregacion(yytext()); System.out.println("AVG: " + yytext());
             }
           // fall through
           case 85: break;
-          case 22:
-            { addListAgregacion(yytext()); System.out.println("MIN: " + yytext());
+          case 21:
+            { addListCreate(yytext()); System.out.println("KEY: " + yytext());
             }
           // fall through
           case 86: break;
-          case 23:
-            { addListCreate(yytext()); System.out.println("SET: " + yytext());
+          case 22:
+            { addListAgregacion(yytext()); System.out.println("MAX: " + yytext());
             }
           // fall through
           case 87: break;
-          case 24:
-            { addListAgregacion(yytext()); System.out.println("SUM: " + yytext());
+          case 23:
+            { addListAgregacion(yytext()); System.out.println("MIN: " + yytext());
             }
           // fall through
           case 88: break;
-          case 25:
-            { addListTipoDato(yytext()); System.out.println("DATE: " + yytext());
+          case 24:
+            { addListCreate(yytext()); System.out.println("SET: " + yytext());
             }
           // fall through
           case 89: break;
-          case 26:
-            { addListCreate(yytext()); System.out.println("DESC: " + yytext());
+          case 25:
+            { addListAgregacion(yytext()); System.out.println("SUM: " + yytext());
             }
           // fall through
           case 90: break;
-          case 27:
-            { addListCreate(yytext()); System.out.println("DROP: " + yytext());
+          case 26:
+            { addListTipoDato(yytext()); System.out.println("DATE: " + yytext());
             }
           // fall through
           case 91: break;
-          case 28:
-            { addListCreate(yytext()); System.out.println("FROM: " + yytext());
+          case 27:
+            { addListCreate(yytext()); System.out.println("DESC: " + yytext());
             }
           // fall through
           case 92: break;
-          case 29:
-            { addListCreate(yytext()); System.out.println("INTO: " + yytext());
+          case 28:
+            { addListCreate(yytext()); System.out.println("DROP: " + yytext());
             }
           // fall through
           case 93: break;
-          case 30:
-            { addListCreate(yytext()); System.out.println("JOIN: " + yytext());
+          case 29:
+            { addListCreate(yytext()); System.out.println("FROM: " + yytext());
             }
           // fall through
           case 94: break;
-          case 31:
-            { addListCreate(yytext()); System.out.println("NULL: " + yytext());
+          case 30:
+            { addListCreate(yytext()); System.out.println("INTO: " + yytext());
             }
           // fall through
           case 95: break;
-          case 32:
-            { addListTipoDato(yytext()); System.out.println("TEXT: " + yytext());
+          case 31:
+            { addListCreate(yytext()); System.out.println("JOIN: " + yytext());
             }
           // fall through
           case 96: break;
-          case 33:
-            { addListBooleano(yytext()); System.out.println("TRUE: " + yytext());
+          case 32:
+            { addListCreate(yytext()); System.out.println("NULL: " + yytext());
             }
           // fall through
           case 97: break;
-          case 34:
-            { addListCreate(yytext()); System.out.println("TYPE: " + yytext());
+          case 33:
+            { addListTipoDato(yytext()); System.out.println("TEXT: " + yytext());
             }
           // fall through
           case 98: break;
-          case 35:
-            { addListCreate(yytext()); System.out.println("ALTER: " + yytext());
+          case 34:
+            { addListBooleano(yytext()); System.out.println("TRUE: " + yytext());
             }
           // fall through
           case 99: break;
-          case 36:
-            { addListAgregacion(yytext()); System.out.println("COUNT: " + yytext());
+          case 35:
+            { addListCreate(yytext()); System.out.println("TYPE: " + yytext());
             }
           // fall through
           case 100: break;
-          case 37:
-            { addListCreate(yytext()); System.out.println("EXIST: " + yytext());
+          case 36:
+            { addListCreate(yytext()); System.out.println("ALTER: " + yytext());
             }
           // fall through
           case 101: break;
-          case 38:
-            { addListBooleano(yytext()); System.out.println("FALSE: " + yytext());
+          case 37:
+            { addListAgregacion(yytext()); System.out.println("COUNT: " + yytext());
             }
           // fall through
           case 102: break;
-          case 39:
-            { addListCreate(yytext()); System.out.println("GROUP: " + yytext());
+          case 38:
+            { addListCreate(yytext()); System.out.println("EXIST: " + yytext());
             }
           // fall through
           case 103: break;
-          case 40:
-            { addListCreate(yytext()); System.out.println("LIMIT: " + yytext());
+          case 39:
+            { addListBooleano(yytext()); System.out.println("FALSE: " + yytext());
             }
           // fall through
           case 104: break;
-          case 41:
-            { addListCreate(yytext()); System.out.println("ORDER: " + yytext());
+          case 40:
+            { addListCreate(yytext()); System.out.println("GROUP: " + yytext());
             }
           // fall through
           case 105: break;
-          case 42:
-            { addListCreate(yytext()); System.out.println("TABLE: " + yytext());
+          case 41:
+            { addListCreate(yytext()); System.out.println("LIMIT: " + yytext());
             }
           // fall through
           case 106: break;
-          case 43:
-            { addListCreate(yytext()); System.out.println("WHERE: " + yytext());
+          case 42:
+            { addListCreate(yytext()); System.out.println("ORDER: " + yytext());
             }
           // fall through
           case 107: break;
-          case 44:
-            { addListTipoDato(yytext()); System.out.println("BIGINT: " + yytext());
+          case 43:
+            { addListCreate(yytext()); System.out.println("TABLE: " + yytext());
             }
           // fall through
           case 108: break;
-          case 45:
-            { addListCreate(yytext()); System.out.println("COLUMN: " + yytext());
+          case 44:
+            { addListCreate(yytext()); System.out.println("WHERE: " + yytext());
             }
           // fall through
           case 109: break;
-          case 46:
-            { addListCreate(yytext()); System.out.println("CREATE: " + yytext());
+          case 45:
+            { addListTipoDato(yytext()); System.out.println("BIGINT: " + yytext());
             }
           // fall through
           case 110: break;
-          case 47:
-            { addListCreate(yytext()); System.out.println("DELETE: " + yytext());
+          case 46:
+            { addListCreate(yytext()); System.out.println("COLUMN: " + yytext());
             }
           // fall through
           case 111: break;
-          case 48:
-            { addListCreate(yytext()); System.out.println("INSERT: " + yytext());
+          case 47:
+            { addListCreate(yytext()); System.out.println("CREATE: " + yytext());
             }
           // fall through
           case 112: break;
-          case 49:
-            { addListCreate(yytext()); System.out.println("SELECT: " + yytext());
+          case 48:
+            { addListCreate(yytext()); System.out.println("DELETE: " + yytext());
             }
           // fall through
           case 113: break;
-          case 50:
-            { addListTipoDato(yytext()); System.out.println("SERIAL: " + yytext());
+          case 49:
+            { addListCreate(yytext()); System.out.println("INSERT: " + yytext());
             }
           // fall through
           case 114: break;
-          case 51:
-            { addListCreate(yytext()); System.out.println("UNIQUE: " + yytext());
+          case 50:
+            { addListCreate(yytext()); System.out.println("SELECT: " + yytext());
             }
           // fall through
           case 115: break;
-          case 52:
-            { addListCreate(yytext()); System.out.println("UPDATE: " + yytext());
+          case 51:
+            { addListTipoDato(yytext()); System.out.println("SERIAL: " + yytext());
             }
           // fall through
           case 116: break;
-          case 53:
-            { addListCreate(yytext()); System.out.println("VALUES: " + yytext());
+          case 52:
+            { addListCreate(yytext()); System.out.println("UNIQUE: " + yytext());
             }
           // fall through
           case 117: break;
-          case 54:
-            { addListTipoDato(yytext()); System.out.println("BOOLEAN: " + yytext());
+          case 53:
+            { addListCreate(yytext()); System.out.println("UPDATE: " + yytext());
             }
           // fall through
           case 118: break;
-          case 55:
-            { addListCreate(yytext()); System.out.println("CASCADE: " + yytext());
+          case 54:
+            { addListCreate(yytext()); System.out.println("VALUES: " + yytext());
             }
           // fall through
           case 119: break;
-          case 56:
-            { addListTipoDato(yytext()); System.out.println("DECIMAL: " + yytext());
+          case 55:
+            { addListTipoDato(yytext()); System.out.println("BOOLEAN: " + yytext());
             }
           // fall through
           case 120: break;
-          case 57:
-            { addListCreate(yytext()); System.out.println("FOREIGN: " + yytext());
+          case 56:
+            { addListCreate(yytext()); System.out.println("CASCADE: " + yytext());
             }
           // fall through
           case 121: break;
-          case 58:
-            { addListTipoDato(yytext()); System.out.println("INTEGER: " + yytext());
+          case 57:
+            { addListTipoDato(yytext()); System.out.println("DECIMAL: " + yytext());
             }
           // fall through
           case 122: break;
-          case 59:
-            { addListCreate(yytext()); System.out.println("PRIMARY: " + yytext());
+          case 58:
+            { addListCreate(yytext()); System.out.println("FOREIGN: " + yytext());
             }
           // fall through
           case 123: break;
-          case 60:
-            { addListTipoDato(yytext()); System.out.println("VARCHAR: " + yytext());
+          case 59:
+            { addListTipoDato(yytext()); System.out.println("INTEGER: " + yytext());
             }
           // fall through
           case 124: break;
-          case 61:
-            { addListCreate(yytext()); System.out.println("DATABASE: " + yytext());
+          case 60:
+            { addListCreate(yytext()); System.out.println("PRIMARY: " + yytext());
             }
           // fall through
           case 125: break;
-          case 62:
-            { addListCreate(yytext()); System.out.println("CONSTRAINT: " + yytext());
+          case 61:
+            { addListTipoDato(yytext()); System.out.println("VARCHAR: " + yytext());
             }
           // fall through
           case 126: break;
-          case 63:
-            { addListCreate(yytext()); System.out.println("REFERENCES: " + yytext());
+          case 62:
+            { addListCreate(yytext()); System.out.println("DATABASE: " + yytext());
             }
           // fall through
           case 127: break;
-          case 64:
-            { addListFecha(yytext()); System.out.println("FECHA: " + yytext());
+          case 63:
+            { addListCreate(yytext()); System.out.println("CONSTRAINT: " + yytext());
             }
           // fall through
           case 128: break;
+          case 64:
+            { addListCreate(yytext()); System.out.println("REFERENCES: " + yytext());
+            }
+          // fall through
+          case 129: break;
+          case 65:
+            { addListFecha(yytext()); System.out.println("FECHA: " + yytext());
+            }
+          // fall through
+          case 130: break;
           default:
             zzScanError(ZZ_NO_MATCH);
         }
