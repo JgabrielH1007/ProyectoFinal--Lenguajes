@@ -6,12 +6,20 @@ package Fronted;
 
 import Backend.AnalizadorLexico;
 import Backend.AnalizadorSintactico;
+import Backend.GeneradorGraficos;
 import Backend.Token;
 import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.StringReader;
+import java.nio.file.Files;
 import java.util.List;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 import javax.swing.text.BadLocationException;
@@ -42,12 +50,13 @@ public class FramePrincipal extends javax.swing.JFrame {
     private List<Token> listaLogicos;
     private List<Token> listaComentarios;
     private boolean lexicoCorrecto;
-
+    private File archivoActual = null;
     /**
      * Creates new form FramePrincipal
      */
     public FramePrincipal() {
         initComponents();
+        jtpEditor.setEnabled(false);
         // Agregar CaretListener para actualizar fila y columna
         jtpEditor.addCaretListener(new CaretListener() {
             @Override
@@ -143,18 +152,38 @@ public class FramePrincipal extends javax.swing.JFrame {
 
         subirArchivo.setFont(new java.awt.Font("Liberation Serif", 0, 15)); // NOI18N
         subirArchivo.setText("Subir archivo...");
+        subirArchivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                subirArchivoActionPerformed(evt);
+            }
+        });
         jMenu1.add(subirArchivo);
 
         crearArchivo.setFont(new java.awt.Font("Liberation Serif", 0, 15)); // NOI18N
         crearArchivo.setText("Crear archivo...");
+        crearArchivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                crearArchivoActionPerformed(evt);
+            }
+        });
         jMenu1.add(crearArchivo);
 
         guardarArchivo.setFont(new java.awt.Font("Liberation Serif", 0, 15)); // NOI18N
         guardarArchivo.setText("Guardar archivo...");
+        guardarArchivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                guardarArchivoActionPerformed(evt);
+            }
+        });
         jMenu1.add(guardarArchivo);
 
         guardarComo.setFont(new java.awt.Font("Liberation Serif", 0, 15)); // NOI18N
         guardarComo.setText("Guardar como...");
+        guardarComo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                guardarComoActionPerformed(evt);
+            }
+        });
         jMenu1.add(guardarComo);
 
         jMenuBar1.add(jMenu1);
@@ -222,12 +251,34 @@ public class FramePrincipal extends javax.swing.JFrame {
 
     private void jbtGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtGenerarActionPerformed
         // TODO add your handling code here:
+        GeneradorGraficos generador = new GeneradorGraficos();
+        generador.generarGraficos(jtpEditor.getText());
     }//GEN-LAST:event_jbtGenerarActionPerformed
 
     private void jbtAnalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtAnalizarActionPerformed
         // TODO add your handling code here:
         analizar();
     }//GEN-LAST:event_jbtAnalizarActionPerformed
+
+    private void subirArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subirArchivoActionPerformed
+        // TODO add your handling code here:
+        cargarArchivo();
+    }//GEN-LAST:event_subirArchivoActionPerformed
+
+    private void crearArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crearArchivoActionPerformed
+        // TODO add your handling code here:
+        crearArchivo();
+    }//GEN-LAST:event_crearArchivoActionPerformed
+
+    private void guardarArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarArchivoActionPerformed
+        // TODO add your handling code here:
+        guardarArchivo();
+    }//GEN-LAST:event_guardarArchivoActionPerformed
+
+    private void guardarComoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarComoActionPerformed
+        // TODO add your handling code here:
+        guardarComo();
+    }//GEN-LAST:event_guardarComoActionPerformed
 
     public void analizar() {
         String entrada = jtpEditor.getText();
@@ -361,6 +412,59 @@ public class FramePrincipal extends javax.swing.JFrame {
         }
 
         return pos;
+    }
+    
+    private void cargarArchivo() {
+        jtpEditor.setEnabled(true);
+        JFileChooser fileChooser = new JFileChooser();
+        int seleccion = fileChooser.showOpenDialog(this);
+
+        if (seleccion == JFileChooser.APPROVE_OPTION) {
+            archivoActual = fileChooser.getSelectedFile();
+            try {
+                String contenido = new String(Files.readAllBytes(archivoActual.toPath()));
+                jtpEditor.setText(contenido);  // Mostrar el contenido en el editor
+            } catch (IOException e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Error al cargar el archivo", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    private void crearArchivo() {
+        jtpEditor.setEnabled(true);
+        jtpEditor.setText(""); // Limpiar el editor
+        archivoActual = null; // No hay archivo asociado aún
+    }
+
+    private void guardarArchivo() {
+        jtpEditor.setEnabled(true);
+        if (archivoActual == null) {
+            guardarComo(); // Si es un archivo nuevo, usar "Guardar como"
+        } else {
+            guardarContenidoEnArchivo(archivoActual);
+        }
+    }
+
+    private void guardarComo() {
+        jtpEditor.setEnabled(true);
+        JFileChooser fileChooser = new JFileChooser();
+        int seleccion = fileChooser.showSaveDialog(this);
+
+        if (seleccion == JFileChooser.APPROVE_OPTION) {
+            archivoActual = fileChooser.getSelectedFile();
+            guardarContenidoEnArchivo(archivoActual);
+        }
+    }
+
+    private void guardarContenidoEnArchivo(File archivo) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(archivo))) {
+            writer.write(jtpEditor.getText()); // Guardar el contenido del editor en el archivo
+            JOptionPane.showMessageDialog(this, "Archivo guardado exitosamente", "Guardar", JOptionPane.INFORMATION_MESSAGE);
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error al guardar el archivo", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**

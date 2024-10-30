@@ -1,0 +1,22 @@
+digraph G {
+    node [shape=box, fontname="Arial"];
+    node1 [label="ALTER TABLE empleados\nADD COLUMN\nfecha_nacimiento DATE"];
+    { rank=same; node1 -> node1 [style=invis]; }
+    node2 [label="ALTER TABLE empleados\nALTER COLUMN\nsalario TYPE NUMERIC(12, 2)"];
+    { rank=same; node1 -> node2 [style=invis]; }
+    { rank=same; node2 -> node2 [style=invis]; }
+    node3 [label="ALTER TABLE empleados\nDROP COLUMN\npuesto"];
+    { rank=same; node2 -> node3 [style=invis]; }
+    { rank=same; node1 node2 node3 ; }
+    { rank=same; node3 -> node3 [style=invis]; }
+    { rank=same; node1 node2 node3 ; }
+    node4 [label="ALTER TABLE empleados\nADD CONSTRAINT\nuc_email UNIQUE (email)"];
+    { rank=same; node3 -> node4 [style=invis]; }
+    { rank=same; node4 -> node4 [style=invis]; }
+    node5 [label="DROP TABLE IF EXISTS empleados"];
+    { rank=same; node4 -> node5 [style=invis]; }
+    { rank=same; node5 -> node5 [style=invis]; }
+    node6 [label="ALTER TABLE empleados\nALTER TABLE empleados\nADD CONSTRAINT\nfk_departamento\nFOREIGN KEY (departamento_id)\nREFERENCES departamentos(id)"];
+    { rank=same; node5 -> node6 [style=invis]; }
+    { rank=same; node4 node5 node6 ; }
+}

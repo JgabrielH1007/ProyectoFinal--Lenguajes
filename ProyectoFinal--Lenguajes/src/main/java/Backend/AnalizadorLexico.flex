@@ -78,7 +78,7 @@ public void addListComentario(String token){
 }
 
 public void addListaErrores(String token){
-        listaErrores.add(new Token(token, yyline, yycolumn,"Error",yychar));
+        listaErrores.add(new Token(token, yyline, yycolumn,"Error","Token o signo no validos"));
 }
 
 public void addListaTokens(List<Token> lista){
@@ -251,4 +251,4 @@ ESPACIOS = [" "\r\t\b\n]
 "OR"                { addListLogicos(yytext()); System.out.println("LOGICO: " + yytext()); }
 "NOT"               { addListLogicos(yytext()); System.out.println("LOGICO: " + yytext()); }
 .                   {System.out.println("Error:"+yytext());
-                     addListaErrores("ERROR>> Linea: "+yyline + ", columna: "+ yycolumn+", Token -> "+yytext()); }
+                     addListaErrores(yytext()); }
