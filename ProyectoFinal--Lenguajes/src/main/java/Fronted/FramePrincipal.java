@@ -7,6 +7,10 @@ package Fronted;
 import Backend.AnalizadorLexico;
 import Backend.AnalizadorSintactico;
 import Backend.GeneradorGraficos;
+import Backend.ReporteDeTablas;
+import Backend.ReporteErroresLexico;
+import Backend.ReporteModificaciones;
+import Backend.ReporteOperaciones;
 import Backend.Token;
 import java.awt.Color;
 import java.awt.event.MouseEvent;
@@ -49,8 +53,11 @@ public class FramePrincipal extends javax.swing.JFrame {
     private List<Token> listaRacionales;
     private List<Token> listaLogicos;
     private List<Token> listaComentarios;
+    private List<Token> listaErrores;
     private boolean lexicoCorrecto;
     private File archivoActual = null;
+    private AnalizadorSintactico analizador;
+
     /**
      * Creates new form FramePrincipal
      */
@@ -193,6 +200,11 @@ public class FramePrincipal extends javax.swing.JFrame {
 
         jMenuItem4.setFont(new java.awt.Font("Liberation Serif", 0, 15)); // NOI18N
         jMenuItem4.setText("Reporte Lexico");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem4);
 
         jMenuItem5.setFont(new java.awt.Font("Liberation Serif", 0, 15)); // NOI18N
@@ -201,14 +213,29 @@ public class FramePrincipal extends javax.swing.JFrame {
 
         jMenuItem1.setFont(new java.awt.Font("Liberation Serif", 0, 15)); // NOI18N
         jMenuItem1.setText("Reporte de tablas");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem1);
 
         jMenuItem2.setFont(new java.awt.Font("Liberation Serif", 0, 15)); // NOI18N
         jMenuItem2.setText("Reporte de tablas modificadas");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem2);
 
         jMenuItem3.setFont(new java.awt.Font("Liberation Serif", 0, 15)); // NOI18N
         jMenuItem3.setText("Reporte de operaciones");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem3);
 
         jMenuBar1.add(jMenu2);
@@ -251,8 +278,16 @@ public class FramePrincipal extends javax.swing.JFrame {
 
     private void jbtGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtGenerarActionPerformed
         // TODO add your handling code here:
-        GeneradorGraficos generador = new GeneradorGraficos();
-        generador.generarGraficos(jtpEditor.getText());
+        analizar();
+        if (analizador.isEstructuraDataBase() == true && analizador.isEstructuraTablas() == true && analizador.isEstructuraModificadores() == true
+                && analizador.isEstructuraInsercion() == true && analizador.isEstructuraLectura() == true && analizador.isEstructuraActualizacion() == true
+                && analizador.isEstructuraEliminacion() == true) {
+            GeneradorGraficos generador = new GeneradorGraficos();
+            generador.generarGraficos(jtpEditor.getText());
+        } else {
+            JOptionPane.showMessageDialog(null, "Se ha detectado un error Sintactico, no se puede generar diagrama.", "Error Sintactico", JOptionPane.ERROR_MESSAGE);
+        }
+
     }//GEN-LAST:event_jbtGenerarActionPerformed
 
     private void jbtAnalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtAnalizarActionPerformed
@@ -279,6 +314,74 @@ public class FramePrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
         guardarComo();
     }//GEN-LAST:event_guardarComoActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        // TODO add your handling code here:
+        /* Create and display the form */
+        if (!listaErrores.isEmpty()) {
+            java.awt.EventQueue.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    new ReporteErroresLexico(listaErrores).setVisible(true);
+                }
+            });
+        }else{
+            JOptionPane.showMessageDialog(null, "No se ha detectado ningun error o no se ha analizado", "Error Léxico", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        analizar();
+        if (analizador.isEstructuraDataBase() == true && analizador.isEstructuraTablas() == true && analizador.isEstructuraModificadores() == true
+                && analizador.isEstructuraInsercion() == true && analizador.isEstructuraLectura() == true && analizador.isEstructuraActualizacion() == true
+                && analizador.isEstructuraEliminacion() == true) {
+            java.awt.EventQueue.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    new ReporteDeTablas(jtpEditor.getText()).setVisible(true);
+                }
+            });
+        } else {
+            JOptionPane.showMessageDialog(null, "Se ha detectado un error Sintactico.", "Error sintactico", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+        analizar();
+        if (analizador.isEstructuraDataBase() == true && analizador.isEstructuraTablas() == true && analizador.isEstructuraModificadores() == true
+                && analizador.isEstructuraInsercion() == true && analizador.isEstructuraLectura() == true && analizador.isEstructuraActualizacion() == true
+                && analizador.isEstructuraEliminacion() == true) {
+            java.awt.EventQueue.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    new ReporteModificaciones(jtpEditor.getText()).setVisible(true);
+                }
+            });
+        } else {
+            JOptionPane.showMessageDialog(null, "Se ha detectado un error Sintactico.", "Error sintactico", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        // TODO add your handling code here:
+        analizar();
+        if (analizador.isEstructuraDataBase() == true && analizador.isEstructuraTablas() == true && analizador.isEstructuraModificadores() == true
+                && analizador.isEstructuraInsercion() == true && analizador.isEstructuraLectura() == true && analizador.isEstructuraActualizacion() == true
+                && analizador.isEstructuraEliminacion() == true) {
+            java.awt.EventQueue.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    new ReporteOperaciones(jtpEditor.getText()).setVisible(true);
+                }
+            });
+        } else {
+            JOptionPane.showMessageDialog(null, "Se ha detectado un error Sintactico.", "Error sintacico", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     public void analizar() {
         String entrada = jtpEditor.getText();
@@ -352,17 +455,21 @@ public class FramePrincipal extends javax.swing.JFrame {
             pintarTokens(listaLogicos, naranja, doc);
             pintarTokens(listaComentarios, gris, doc);
 
-            // Manejo de errores
-            List<Token> listaErrores = analizadorLexico.getListaErrores();
+            listaErrores = analizadorLexico.getListaErrores();
             if (!listaErrores.isEmpty()) {
                 lexicoCorrecto = false;
-                for (Token error : listaErrores) {
-                    System.out.println(error);
-                }
+                JOptionPane.showMessageDialog(null, "Se ha detectado un error léxico. Por favor, revisa el reporte de errores para más detalles.", "Error Léxico", JOptionPane.ERROR_MESSAGE);
             } else {
                 lexicoCorrecto = true;
-                AnalizadorSintactico analizador = new AnalizadorSintactico();
+                analizador = new AnalizadorSintactico();
                 analizador.procesarEstructuras(entrada, listaCreate, listaIdentificador, listaTipoDato, listaSignos, listaEntero, listaAritmeticos, listaLogicos, listaCadena, listaFecha, listaDecimal, listaRacionales, listaAgregacion);
+                if (analizador.isEstructuraDataBase() == true && analizador.isEstructuraTablas() == true && analizador.isEstructuraModificadores() == true
+                        && analizador.isEstructuraInsercion() == true && analizador.isEstructuraLectura() == true && analizador.isEstructuraActualizacion() == true
+                        && analizador.isEstructuraEliminacion() == true) {
+                     JOptionPane.showMessageDialog(null, "Verificacion completa, todo esta bien estructurado.","VERIFICACION EXITOSA", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Se ha detectado un error Sintactico.", "Error sintactico", JOptionPane.ERROR_MESSAGE);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -413,7 +520,7 @@ public class FramePrincipal extends javax.swing.JFrame {
 
         return pos;
     }
-    
+
     private void cargarArchivo() {
         jtpEditor.setEnabled(true);
         JFileChooser fileChooser = new JFileChooser();
@@ -470,37 +577,7 @@ public class FramePrincipal extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FramePrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FramePrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FramePrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FramePrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FramePrincipal().setVisible(true);
-            }
-        });
-    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem crearArchivo;

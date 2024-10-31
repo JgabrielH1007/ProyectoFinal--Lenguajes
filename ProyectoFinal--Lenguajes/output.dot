@@ -1,8 +1,9 @@
 digraph G {
     node [shape=box, fontname="Arial"];
     node1 [label="ALTER TABLE empleados\nADD COLUMN\nfecha_nacimiento DATE"];
+    { rank=same; node0 -> node1 [style=invis]; }
     { rank=same; node1 -> node1 [style=invis]; }
-    node2 [label="ALTER TABLE empleados\nALTER COLUMN\nsalario TYPE NUMERIC(12, 2)"];
+    node2 [label="ALTER TABLE empleados\nALTER COLUMN\nsalario TYPE DECIMAL(12, 2)"];
     { rank=same; node1 -> node2 [style=invis]; }
     { rank=same; node2 -> node2 [style=invis]; }
     node3 [label="ALTER TABLE empleados\nDROP COLUMN\npuesto"];
@@ -19,4 +20,14 @@ digraph G {
     node6 [label="ALTER TABLE empleados\nALTER TABLE empleados\nADD CONSTRAINT\nfk_departamento\nFOREIGN KEY (departamento_id)\nREFERENCES departamentos(id)"];
     { rank=same; node5 -> node6 [style=invis]; }
     { rank=same; node4 node5 node6 ; }
+    { rank=same; node6 -> node6 [style=invis]; }
+    { rank=same; node4 node5 node6 ; }
+    node7 [label="empleados\nid SERIAL PRIMARY KEY\nnombre VARCHAR(100) NOT NULL\npuesto VARCHAR(50)\nsalario DECIMAL(10 2)\nfecha_contratacion DATE\ndepartamento_id INTEGER\nemail VARCHAR(100) UNIQUE\nCONSTRAINT fk_departamento\nFOREIGN KEY (departamento_id)\nREFERENCES departamentos(id)\n\nFOREIGN KEY (departamento_id) REFERENCES departamentos(id)\n"];
+    { rank=same; node6 -> node7 [style=invis]; }
+    { rank=same; node7 -> node7 [style=invis]; }
+    node8 [label="empleados\nid SERIAL PRIMARY KEY\nnombre VARCHAR(100) NOT NULL\npuesto VARCHAR(50)\nsalario DECIMAL(10 2)\nfecha_contratacion DATE\ndepartamento_id INTEGER\nemail VARCHAR(100) UNIQUE\nCONSTRAINT fk_departamento\nFOREIGN KEY (departamento_id)\nREFERENCES departamentos(id)\n\nFOREIGN KEY (departamento_id) REFERENCES departamentos(id)\n"];
+    { rank=same; node7 -> node8 [style=invis]; }
+    { rank=same; node8 -> node8 [style=invis]; }
+    { rank=same; node8 -> node8 [style=invis]; }
+    { rank=same; node8 -> node8 [style=invis]; }
 }

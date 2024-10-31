@@ -218,6 +218,7 @@ ESPACIOS = [" "\r\t\b\n]
 "DESC"              { addListCreate(yytext()); System.out.println("DESC: " + yytext()); }
 "LIMIT"             { addListCreate(yytext()); System.out.println("LIMIT: " + yytext()); }
 "JOIN"              { addListCreate(yytext()); System.out.println("JOIN: " + yytext()); }
+"NUMERIC"           { addListCreate(yytext()); System.out.println("NUMERIC: " + yytext()); }
 "INTEGER"           { addListTipoDato(yytext()); System.out.println("INTEGER: " + yytext()); }
 "BIGINT"            { addListTipoDato(yytext()); System.out.println("BIGINT: " + yytext()); }
 "VARCHAR"           { addListTipoDato(yytext()); System.out.println("VARCHAR: " + yytext()); }

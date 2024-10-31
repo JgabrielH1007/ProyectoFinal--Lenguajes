@@ -16,6 +16,8 @@ public class Token {
     private int inicio;
     
     public Token(String texto, int line, int column, String tipo, int inicio) {
+        
+        
         this.texto = texto;
         this.line = line;
         this.column = column;
